@@ -1,0 +1,18 @@
+<launch>
+
+  <!-- args corresponding to environment variables -->
+  <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+  <arg name="UAV_NAMES" default="$(optenv UAV_NAMES)" />
+  <arg name="latitude" default="$(optenv DATUM_LATITUDE)"/>
+  <arg name="longitude" default="$(optenv DATUM_LONGITUDE)"/>
+
+  <group ns="$(arg UAV_NAME)">
+    <node name="uav_tf_generator" pkg="mrs_openswarm_utils" type="tf_generator.py" output="screen">
+      <param name="uav_name" value="$(arg UAV_NAME)" />
+      <param name="uav_names" type="yaml" value="$(arg UAV_NAMES)"/>
+      <param name="latitude" value="$(arg latitude)" />
+      <param name="longitude" value="$(arg longitude)" />
+    </node>
+  </group>
+
+</launch>

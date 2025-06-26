@@ -1,0 +1,1498 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 0
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /TF1/Frames1
+        - /uav61
+        - /uav61/DCL-LIO-SAM1
+        - /uav71
+        - /uav71/DCL-LIO-SAM1
+        - /uav81
+        - /uav81/DCL-LIO-SAM1
+        - /uav91
+        - /uav91/DCL-LIO-SAM1
+        - /uav101
+        - /uav101/DCL-LIO-SAM1
+        - /uav111
+        - /uav111/DCL-LIO-SAM1
+        - /uav121
+        - /uav121/DCL-LIO-SAM1
+        - /uav131
+        - /uav131/DCL-LIO-SAM1
+        - /uav141
+        - /uav141/DCL-LIO-SAM1
+      Splitter Ratio: 0.5307125449180603
+    Tree Height: 898
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+      - /Plan path1
+      - /Custom Goal1
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Name: Time
+    SyncMode: 0
+    SyncSource: Global Map
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.20000000298023224
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 200
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 0.5
+      Cell Size: 5
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 200
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        asus1/fcu:
+          Value: false
+        asus1/fcu/arms:
+          Value: false
+        asus1/fcu/arms_red:
+          Value: false
+        asus1/fcu/props:
+          Value: false
+        asus1/fcu/uav_marker:
+          Value: false
+        base_link:
+          Value: false
+        base_link_frd:
+          Value: false
+        common_origin:
+          Value: true
+        map:
+          Value: false
+        map_ned:
+          Value: false
+        odom:
+          Value: false
+        odom_ned:
+          Value: false
+        uav10/amsl_origin:
+          Value: false
+        uav10/base_footprint_link:
+          Value: false
+        uav10/fcu:
+          Value: true
+        uav10/fcu_untilted:
+          Value: false
+        uav10/fixed_origin:
+          Value: false
+        uav10/garmin:
+          Value: false
+        uav10/gnss_link:
+          Value: false
+        uav10/imu_link:
+          Value: false
+        uav10/lidar_link:
+          Value: false
+        uav10/liosam_origin:
+          Value: false
+        uav10/liosam_origin_att_only:
+          Value: false
+        uav10/local_origin:
+          Value: false
+        uav10/lslidar_link:
+          Value: false
+        uav10/map_navsat:
+          Value: false
+        uav10/odom:
+          Value: false
+        uav10/odom_:
+          Value: false
+        uav10/rtk_antenna:
+          Value: false
+        uav10/stable_origin:
+          Value: false
+        uav10/tof_sensor_0:
+          Value: false
+        uav10/utm_origin1:
+          Value: false
+        uav11/amsl_origin:
+          Value: false
+        uav11/base_footprint_link:
+          Value: false
+        uav11/fcu:
+          Value: true
+        uav11/fcu_untilted:
+          Value: false
+        uav11/fixed_origin:
+          Value: false
+        uav11/garmin:
+          Value: false
+        uav11/gnss_link:
+          Value: false
+        uav11/imu_link:
+          Value: false
+        uav11/lidar_link:
+          Value: false
+        uav11/liosam_origin:
+          Value: false
+        uav11/liosam_origin_att_only:
+          Value: false
+        uav11/local_origin:
+          Value: false
+        uav11/lslidar_link:
+          Value: false
+        uav11/map_navsat:
+          Value: false
+        uav11/odom:
+          Value: false
+        uav11/odom_:
+          Value: false
+        uav11/rtk_antenna:
+          Value: false
+        uav11/stable_origin:
+          Value: false
+        uav11/tof_sensor_0:
+          Value: false
+        uav11/utm_origin1:
+          Value: false
+        uav12/liosam_origin:
+          Value: false
+        uav12/utm_origin1:
+          Value: false
+        uav13/liosam_origin:
+          Value: false
+        uav13/utm_origin1:
+          Value: false
+        uav14/liosam_origin:
+          Value: false
+        uav14/utm_origin1:
+          Value: false
+        uav6/amsl_origin:
+          Value: false
+        uav6/base_footprint_link:
+          Value: false
+        uav6/fcu:
+          Value: true
+        uav6/fcu_untilted:
+          Value: false
+        uav6/fixed_origin:
+          Value: false
+        uav6/garmin:
+          Value: false
+        uav6/gnss_link:
+          Value: false
+        uav6/imu_link:
+          Value: false
+        uav6/lidar_link:
+          Value: false
+        uav6/liosam_origin:
+          Value: false
+        uav6/liosam_origin_att_only:
+          Value: false
+        uav6/local_origin:
+          Value: false
+        uav6/lslidar_link:
+          Value: false
+        uav6/map_navsat:
+          Value: false
+        uav6/odom:
+          Value: false
+        uav6/odom_:
+          Value: false
+        uav6/rtk_antenna:
+          Value: false
+        uav6/stable_origin:
+          Value: false
+        uav6/tof_sensor_0:
+          Value: false
+        uav6/utm_origin1:
+          Value: false
+        uav7/amsl_origin:
+          Value: false
+        uav7/base_footprint_link:
+          Value: false
+        uav7/fcu:
+          Value: true
+        uav7/fcu_untilted:
+          Value: false
+        uav7/fixed_origin:
+          Value: false
+        uav7/garmin:
+          Value: false
+        uav7/gnss_link:
+          Value: false
+        uav7/imu_link:
+          Value: false
+        uav7/lidar_link:
+          Value: false
+        uav7/liosam_origin:
+          Value: false
+        uav7/liosam_origin_att_only:
+          Value: false
+        uav7/local_origin:
+          Value: false
+        uav7/lslidar_link:
+          Value: false
+        uav7/map_navsat:
+          Value: false
+        uav7/odom:
+          Value: false
+        uav7/odom_:
+          Value: false
+        uav7/rtk_antenna:
+          Value: false
+        uav7/stable_origin:
+          Value: false
+        uav7/tof_sensor_0:
+          Value: false
+        uav7/utm_origin1:
+          Value: false
+        uav8/amsl_origin:
+          Value: false
+        uav8/base_footprint_link:
+          Value: false
+        uav8/fcu:
+          Value: true
+        uav8/fcu_untilted:
+          Value: false
+        uav8/fixed_origin:
+          Value: false
+        uav8/garmin:
+          Value: false
+        uav8/gnss_link:
+          Value: false
+        uav8/imu_link:
+          Value: false
+        uav8/lidar_link:
+          Value: false
+        uav8/liosam_origin:
+          Value: false
+        uav8/liosam_origin_att_only:
+          Value: false
+        uav8/local_origin:
+          Value: false
+        uav8/lslidar_link:
+          Value: false
+        uav8/map_navsat:
+          Value: false
+        uav8/odom:
+          Value: false
+        uav8/odom_:
+          Value: false
+        uav8/rtk_antenna:
+          Value: false
+        uav8/stable_origin:
+          Value: false
+        uav8/tof_sensor_0:
+          Value: false
+        uav8/utm_origin1:
+          Value: false
+        uav9/amsl_origin:
+          Value: false
+        uav9/base_footprint_link:
+          Value: false
+        uav9/fcu:
+          Value: true
+        uav9/fcu_untilted:
+          Value: false
+        uav9/fixed_origin:
+          Value: false
+        uav9/garmin:
+          Value: false
+        uav9/gnss_link:
+          Value: false
+        uav9/imu_link:
+          Value: false
+        uav9/lidar_link:
+          Value: false
+        uav9/liosam_origin:
+          Value: false
+        uav9/liosam_origin_att_only:
+          Value: false
+        uav9/local_origin:
+          Value: false
+        uav9/lslidar_link:
+          Value: false
+        uav9/map_navsat:
+          Value: false
+        uav9/odom:
+          Value: false
+        uav9/odom_:
+          Value: false
+        uav9/rtk_antenna:
+          Value: false
+        uav9/stable_origin:
+          Value: false
+        uav9/tof_sensor_0:
+          Value: false
+        uav9/utm_origin1:
+          Value: false
+        utm_origin:
+          Value: false
+        world:
+          Value: false
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        asus1/fcu:
+          asus1/fcu/arms:
+            {}
+          asus1/fcu/arms_red:
+            {}
+          asus1/fcu/props:
+            {}
+          asus1/fcu/uav_marker:
+            {}
+        base_link:
+          base_link_frd:
+            {}
+        common_origin:
+          uav10/map_navsat:
+            uav10/odom_:
+              uav10/fcu:
+                uav10/base_footprint_link:
+                  {}
+                uav10/fcu_untilted:
+                  uav10/amsl_origin:
+                    {}
+                uav10/fixed_origin:
+                  uav10/local_origin:
+                    {}
+                uav10/garmin:
+                  {}
+                uav10/gnss_link:
+                  {}
+                uav10/imu_link:
+                  {}
+                uav10/liosam_origin:
+                  uav10/utm_origin1:
+                    {}
+                uav10/liosam_origin_att_only:
+                  {}
+                uav10/lslidar_link:
+                  {}
+                uav10/odom:
+                  uav10/lidar_link:
+                    {}
+                uav10/rtk_antenna:
+                  {}
+                uav10/stable_origin:
+                  {}
+                uav10/tof_sensor_0:
+                  {}
+          uav11/map_navsat:
+            uav11/odom_:
+              uav11/fcu:
+                uav11/base_footprint_link:
+                  {}
+                uav11/fcu_untilted:
+                  uav11/amsl_origin:
+                    {}
+                uav11/fixed_origin:
+                  uav11/local_origin:
+                    {}
+                uav11/garmin:
+                  {}
+                uav11/gnss_link:
+                  {}
+                uav11/imu_link:
+                  {}
+                uav11/liosam_origin:
+                  uav11/utm_origin1:
+                    {}
+                uav11/liosam_origin_att_only:
+                  {}
+                uav11/lslidar_link:
+                  {}
+                uav11/odom:
+                  uav11/lidar_link:
+                    {}
+                  utm_origin:
+                    {}
+                uav11/rtk_antenna:
+                  {}
+                uav11/stable_origin:
+                  {}
+                uav11/tof_sensor_0:
+                  {}
+          uav6/map_navsat:
+            uav6/odom_:
+              uav6/fcu:
+                uav6/base_footprint_link:
+                  {}
+                uav6/fcu_untilted:
+                  uav6/amsl_origin:
+                    {}
+                uav6/fixed_origin:
+                  uav6/local_origin:
+                    {}
+                uav6/garmin:
+                  {}
+                uav6/gnss_link:
+                  {}
+                uav6/imu_link:
+                  {}
+                uav6/liosam_origin:
+                  uav6/utm_origin1:
+                    {}
+                uav6/liosam_origin_att_only:
+                  {}
+                uav6/lslidar_link:
+                  {}
+                uav6/odom:
+                  uav6/lidar_link:
+                    {}
+                  world:
+                    {}
+                uav6/rtk_antenna:
+                  {}
+                uav6/stable_origin:
+                  {}
+                uav6/tof_sensor_0:
+                  {}
+          uav7/map_navsat:
+            uav7/odom_:
+              uav7/fcu:
+                uav7/base_footprint_link:
+                  {}
+                uav7/fcu_untilted:
+                  uav7/amsl_origin:
+                    {}
+                uav7/fixed_origin:
+                  uav7/local_origin:
+                    {}
+                uav7/garmin:
+                  {}
+                uav7/gnss_link:
+                  {}
+                uav7/imu_link:
+                  {}
+                uav7/liosam_origin:
+                  uav7/utm_origin1:
+                    {}
+                uav7/liosam_origin_att_only:
+                  {}
+                uav7/lslidar_link:
+                  {}
+                uav7/odom:
+                  uav7/lidar_link:
+                    {}
+                uav7/rtk_antenna:
+                  {}
+                uav7/stable_origin:
+                  {}
+                uav7/tof_sensor_0:
+                  {}
+          uav8/map_navsat:
+            uav8/odom_:
+              uav8/fcu:
+                uav8/base_footprint_link:
+                  {}
+                uav8/fcu_untilted:
+                  uav8/amsl_origin:
+                    {}
+                uav8/fixed_origin:
+                  uav8/local_origin:
+                    {}
+                uav8/garmin:
+                  {}
+                uav8/gnss_link:
+                  {}
+                uav8/imu_link:
+                  {}
+                uav8/liosam_origin:
+                  uav8/utm_origin1:
+                    {}
+                uav8/liosam_origin_att_only:
+                  {}
+                uav8/lslidar_link:
+                  {}
+                uav8/odom:
+                  uav8/lidar_link:
+                    {}
+                uav8/rtk_antenna:
+                  {}
+                uav8/stable_origin:
+                  {}
+                uav8/tof_sensor_0:
+                  {}
+          uav9/map_navsat:
+            uav9/odom_:
+              uav9/fcu:
+                uav9/base_footprint_link:
+                  {}
+                uav9/fcu_untilted:
+                  uav9/amsl_origin:
+                    {}
+                uav9/fixed_origin:
+                  uav9/local_origin:
+                    {}
+                uav9/garmin:
+                  {}
+                uav9/gnss_link:
+                  {}
+                uav9/imu_link:
+                  {}
+                uav9/liosam_origin:
+                  uav9/utm_origin1:
+                    {}
+                uav9/liosam_origin_att_only:
+                  {}
+                uav9/lslidar_link:
+                  {}
+                uav9/odom:
+                  uav9/lidar_link:
+                    {}
+                uav9/rtk_antenna:
+                  {}
+                uav9/stable_origin:
+                  {}
+                uav9/tof_sensor_0:
+                  {}
+        map:
+          map_ned:
+            {}
+        odom:
+          odom_ned:
+            {}
+        uav12/liosam_origin:
+          uav12/utm_origin1:
+            {}
+        uav13/liosam_origin:
+          uav13/utm_origin1:
+            {}
+        uav14/liosam_origin:
+          uav14/utm_origin1:
+            {}
+      Update Interval: 0
+      Value: true
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 0; 127
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav6/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav6/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav6/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: false
+      Name: uav6
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 0; 85; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav7/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav7/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav7/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: false
+      Name: uav7
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 85; 170; 255
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav8/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav8/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav8/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: false
+      Name: uav8
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 170; 0; 255
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav9/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav9/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav9/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: false
+      Name: uav9
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 0; 170; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav10/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: false
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav10/distributedMapping/path
+              Unreliable: false
+              Value: false
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: false
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav10/octomap_planner/path
+              Unreliable: false
+              Value: false
+          Enabled: false
+          Name: DCL-LIO-SAM
+      Enabled: true
+      Name: uav10
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 85; 0; 255
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav11/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav11/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav11/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: false
+      Name: uav11
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 170; 127
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav12/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav12/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav12/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: true
+      Name: uav12
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 85; 255
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav13/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav13/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav13/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: true
+      Name: uav13
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 85; 255
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: Global Map
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.10000000149011612
+              Style: Flat Squares
+              Topic: /uav14/distributedMapping/globalMap
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 85; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: LocalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav14/distributedMapping/path
+              Unreliable: false
+              Value: true
+            - Alpha: 3
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 170; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.20000000298023224
+              Name: GlobalPath
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Queue Size: 10
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /uav14/octomap_planner/path
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: DCL-LIO-SAM
+      Enabled: true
+      Name: uav14
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /hexagon_markers
+      Name: Marker
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /asus1/formation_markers
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Alpha: 1
+      Class: rviz/Axes
+      Enabled: false
+      Length: 1
+      Name: Axes
+      Radius: 0.10000000149011612
+      Reference Frame: <Fixed Frame>
+      Show Trail: false
+      Value: false
+    - Class: rviz/InteractiveMarkers
+      Enable Transparency: true
+      Enabled: true
+      Name: Control Display
+      Show Axes: false
+      Show Descriptions: true
+      Show Visual Aids: false
+      Update Topic: control/update
+      Value: true
+    - Alpha: 1
+      Class: rviz/Axes
+      Enabled: true
+      Length: 1
+      Name: Axes
+      Radius: 0.10000000149011612
+      Reference Frame: common_origin
+      Show Trail: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/Axes
+      Enabled: false
+      Length: 1
+      Name: Axes
+      Radius: 0.10000000149011612
+      Reference Frame: uav6/fcu
+      Show Trail: false
+      Value: false
+  Enabled: true
+  Global Options:
+    Background Color: 255; 255; 255
+    Default Light: true
+    Fixed Frame: common_origin
+    Frame Rate: 60
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Theta std deviation: 0.2617993950843811
+      Topic: /initialpose
+      X std deviation: 0.5
+      Y std deviation: 0.5
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+    - Class: mrs_rviz_plugins/ControlTool
+    - Class: mrs_rviz_plugins/WaypointPlanner
+      Drone name: uav6
+      Fly now: true
+      Height offset: 0
+      Loop: false
+      Shape: Axes
+      Stop at waypoints: false
+      Topic: trajectory_generation/path
+      Use heading: true
+    - Class: mrs_rviz_plugins/NamedSetGoal
+      Name: name
+      Topic: goal
+  Value: true
+  Views:
+    Current:
+      Angle: -1.5649999380111694
+      Class: rviz/TopDownOrtho
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Scale: 89.40885925292969
+      Target Frame: <Fixed Frame>
+      X: 9.828971862792969
+      Y: 27.327449798583984
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1043
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd000000040000000000000199000003bdfc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b000003bd000000c700fffffffb0000001400760069006f005f00630061006d0065007200610000000122000000bd0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d00610067006501000001400000009f0000000000000000fb0000001400760069006f005f00630061006d00650072006100000001400000009f0000000000000000fb0000001400760069006f005f00630061006d00650072006100000001400000009f0000000000000000000000010000014f000003bdfc0200000004fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003b000002740000005c00fffffffb0000000a0056006900650077007301000002b500000143000000a000fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000016d0000016e0000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000038f0000003efc0100000002fb0000000800540069006d006500000000000000038f0000035c00fffffffb0000000800540069006d006501000000000000045000000000000000000000048c000003bd00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1920
+  X: 0
+  Y: 423

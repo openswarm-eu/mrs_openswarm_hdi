@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="UAV_NAME" default="$(optenv UAV_NAME uav1)"/>
+    <arg name="ROS_CONFIG_PATH" default="$(optenv ROS_CONFIG_PATH)" />
+
+    <group ns="$(arg UAV_NAME)">
+        <arg name="model" default="$(arg ROS_CONFIG_PATH)/urdf/zd700.urdf"/>
+        <param name="robot_description" textfile="$(arg model)" />
+        <!--<param name="use_gui" value="true"/>-->
+
+        
+        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+                <remap from="joint_state" to="joint_state"/>
+                <param name="publish_frequency" type="double" value="1.0"/>
+                <!--<param name="use_gui" value="true"/>-->
+                <param name="tf_prefix" type="string" value="$(arg UAV_NAME)"/>
+        </node>
+    </group>
+</launch>
