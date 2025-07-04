@@ -5,7 +5,7 @@ socket_name: mrs
 attach: false
 tmux_options: -f /etc/ctu-mrs/tmux.conf
 # you can modify these export
-pre_window: source ../../../mrs_openswarm_real/tmux/just_flying/scripts/env_cp.sh
+pre_window: source ../../../mrs_openswarm_real/tmux/just_flying/scripts/env_ferox.sh
 startup_window: fsm_cp
 windows:
   - roscore:
