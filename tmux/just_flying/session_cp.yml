@@ -25,6 +25,7 @@ windows:
         - export UAV_NAME=uav12; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
         - export UAV_NAME=uav13; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
         - export UAV_NAME=uav14; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav15; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
   - tf_connector:
       layout: tiled
       panes:
@@ -33,7 +34,7 @@ windows:
   - Nimbro:
       layout: tiled
       panes:
-        - waitForTime; rosrun mrs_openswarm_real run_nimbro.py ./config/network_config.yaml `rospack find mrs_openswarm_real`/config/communication_config.yaml
+        - waitForTime; rosrun mrs_openswarm_real run_nimbro.py `rospack find mrs_openswarm_real`/tmux/just_flying/config/network_config.yaml `rospack find mrs_openswarm_real`/config/communication_config.yaml
   - fsm_cp:
       layout: tiled
       panes:
@@ -41,8 +42,8 @@ windows:
   - rviz:
       layout: tiled
       panes:
-        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && rosrun rviz rviz -d "./config/rviz/rviz_cp.rviz" || exit
-        # - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins rviz_interface.launch || exit
+        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && rosrun rviz rviz -d "./config/rviz/rviz_cp_lio.rviz" || exit
+        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins rviz_interface.launch || exit
   - rviz_uav_models:
       layout: tiled
       panes:

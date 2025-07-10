@@ -13,7 +13,7 @@
   <arg name="longitude_end" default="$(optenv DATUM_LONGITUDE_END)"/>
 
   <group ns="$(arg UAV_NAME)">
-    <node name="uav_fsm" pkg="mrs_openswarm_utils" type="fsm_cp_v2.py" output="screen">
+    <node name="uav_fsm" pkg="mrs_openswarm_utils" type="fsm_cp_v3.py" output="screen">
       <param name="uav_name" value="$(arg UAV_NAME)" />
       <param name="uav_names" type="yaml" value="$(arg UAV_NAMES)"/>
       <param name="latitude" value="$(arg latitude)" />
@@ -28,6 +28,10 @@
       <param name="six_formation" value="v_formation" /> 
       <!-- For nine drones: octogon_center, or regular or v_formation -->
       <param name="nine_formation" value="v_formation" /> 
+      <!-- tools for debugging -->
+      <param name="pass_init_takeoff" value="true" />
+
+
     </node>
   </group>
 

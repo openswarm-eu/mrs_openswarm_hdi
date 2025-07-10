@@ -40,6 +40,9 @@ connections:
   - root_frame_id: "uav14/fcu"
     equal_frame_id: "uav14/stable_origin"
 
+  - root_frame_id: "uav15/fcu"
+    equal_frame_id: "uav15/stable_origin"
+
   # you can add further connections here:
   # - root_frame_id: "another_root"
   #   equal_frame_id: "another_equal"
