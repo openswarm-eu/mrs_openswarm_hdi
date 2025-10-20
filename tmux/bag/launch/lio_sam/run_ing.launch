@@ -1,0 +1,52 @@
+<launch>
+
+    <!-- Namespace -->
+    <arg name="lidarFrame" default="$(optenv ROS_NAMESPACE)base_link" />
+    <arg name="baselinkFrame" default="$(optenv ROS_NAMESPACE)base_link" />
+    <arg name="odometryFrame" default="$(optenv ROS_NAMESPACE)odom" />
+    <arg name="mapFrame" default="$(optenv ROS_NAMESPACE)map" />
+
+    <!-- Mapping mode ? -->
+    <arg name="mapping" default="$(optenv LIO_SAM_MAPPING 1)" />
+
+    <!-- RVIZ -->
+    <arg name="rviz" default="$(optenv LIO_SAM_RVIZ 0)" />
+
+    <!-- LIO-SAM's lidar frame -->
+    <arg name="lidar_frame" default="" />
+
+    <!-- LIO-SAM's gps fix topic -->
+    <arg name="force_disable_gps" default="false" />
+
+    <!-- Parameters -->
+    <rosparam file="$(find lio_sam)/config/params_ing.yaml" command="load" />
+    
+    <!-- Definition of frames -->
+    <rosparam param="lio_sam/mapFrame" subst_value="True">$(arg mapFrame)</rosparam>
+    <rosparam param="lio_sam/lidarFrame" subst_value="True">$(arg lidarFrame)</rosparam>
+    <rosparam param="lio_sam/baselinkFrame" subst_value="True">$(arg baselinkFrame)</rosparam>
+    <rosparam param="lio_sam/odometryFrame" subst_value="True">$(arg odometryFrame)</rosparam>
+
+    <!-- Overwrite lidar frame if specified -->
+    <rosparam if="$(eval arg('lidar_frame') != '')" subst_value="true">
+        lio_sam/lidarFrame: $(arg lidar_frame)
+    </rosparam>
+
+    <!-- Overwrite gps fix topic if specified -->
+    <rosparam if="$(arg force_disable_gps)">
+        lio_sam/gpsFixTopic: ""
+    </rosparam>
+
+    <!--- LOAM -->
+    <include if="$(arg mapping)" file="$(find lio_sam)/launch/include/module_loam.launch" />
+
+    <!--- Relocalize -->
+    <include unless="$(arg mapping)" file="$(find lio_sam)/launch/include/module_relocalize.launch" />
+
+    <!--- Run Navsat -->
+    <include file="$(find lio_sam)/launch/include/module_navsat.launch" />
+
+    <!--- Run RVIZ -->
+    <include if="$(arg rviz)" file="$(find lio_sam)/launch/include/module_rviz.launch"/>
+    
+</launch>

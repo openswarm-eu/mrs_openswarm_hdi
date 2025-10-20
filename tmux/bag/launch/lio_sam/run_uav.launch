@@ -1,0 +1,13 @@
+<launch>
+
+    <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+    <arg name="ROS_CONFIG_PATH" default="$(optenv ROS_CONFIG_PATH)" />
+    <arg name="ROS_LAUNCH_PATH" default="$(optenv ROS_LAUNCH_PATH)" />
+
+    <!-- Mapping mode ? -->
+    <arg name="mapping" default="$(optenv LIO_SAM_MAPPING 1)" />
+
+    <!--- LOAM -->
+    <include if="$(arg mapping)" file="$(arg ROS_LAUNCH_PATH)/lio_sam/include/module_loam.launch" />
+
+</launch>

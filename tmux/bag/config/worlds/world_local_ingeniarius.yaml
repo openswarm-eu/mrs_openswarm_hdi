@@ -1,0 +1,61 @@
+use_utm_origin: true
+utm_origin_units: 1 # 0 - UTM, 1 - Latitude Longitude
+utm_origin_lat: 41.22061958
+utm_origin_lon: -8.52732281
+
+world_origin:
+
+  units: "LATLON" # {"UTM, "LATLON"}
+
+  origin_x: 41.22061958
+  origin_y: -8.52732281
+
+safety_area:
+
+  enabled: false
+
+  horizontal:
+
+    # the frame of reference in which the points are expressed
+    frame_name: "latlon_origin"
+
+    # polygon
+    #
+    # x, y [m] for any frame_name except latlon_origin
+    # x = latitude, y = longitude [deg]  for frame_name=="latlon_origin"
+    points: [
+      41.22120002,	-8.52724563,
+      41.2211981,	-8.52719701,
+      41.22118722,	-8.52712406,
+      41.22113799,	-8.52712518,
+      41.22095525,	-8.52706372,
+      41.22090802,	-8.5270696,
+      41.22091362,	-8.52716425,
+      41.22066379,	-8.52717763,
+      41.22063937,	-8.52720523,
+      41.2206227,	-8.52732422,
+      41.22059763,	-8.52749763,
+      41.22066209,	-8.5274973,
+      41.22066796,	-8.52754688,
+      41.22075433,	-8.52753732,
+      41.22073015,	-8.527373,
+      41.220747,	-8.52732366,
+      41.22095297,	-8.52726003,
+      41.22096343,	-8.52731098,
+      41.22100697,	-8.52729812,
+      41.22102625,	-8.52738197,
+      41.22105677,	-8.52736167,
+      41.2210705,	-8.52734444,
+      41.22108095,	-8.52731456,
+      41.22110603,	-8.52729712,
+      41.22111787,	-8.52723414,
+      41.22117581,	-8.52724771,
+    ]
+
+  vertical:
+
+    # the frame of reference in which the max&min z is expressed
+    frame_name: "world_origin"
+
+    max_z: 15.0
+    min_z: 0.0

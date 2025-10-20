@@ -1,0 +1,61 @@
+# do not modify these
+root: ./
+name: real_drone
+socket_name: mrs
+attach: false
+tmux_options: -f /etc/ctu-mrs/tmux.conf
+# you can modify these export ROS_MASTER_URI='http://192.168.8.157:11311'; export ROS_IP='192.168.8.157';
+pre_window: source ./scripts/env.sh
+startup_window: status
+windows:
+  - roscore:
+      layout: tiled
+      panes:
+        - roscore
+        - waitForRos; rosparam set use_sim_time false
+  - bag:
+      layout: tiled
+      panes:
+        - waitForRos; roslaunch $ROS_LAUNCH_PATH/record_raw_sensors_uav_ns.launch
+  - core:
+      layout: tiled
+      panes:
+        - waitForHw; roslaunch $ROS_LAUNCH_PATH/mrs_core.launch
+  - lio_sam:
+      layout: tiled
+      panes:
+        - waitForHw; sleep 15; roslaunch $ROS_LAUNCH_PATH/lio_sam/run_uav.launch
+  # - tf_connector:
+  #     layout: tiled
+  #     panes:
+  #       - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch $ROS_LAUNCH_PATH/tf_relay.launch || exit
+  # - status:
+  #     layout: tiled
+  #     panes:
+  #       - waitForHw; roslaunch mrs_uav_status status.launch config_file:=$ROS_CONFIG_PATH/status_info.yaml
+  # - octomap:
+  #     layout: tiled
+  #     panes:
+  #       - waitForHw; sleep 6; roslaunch $ROS_LAUNCH_PATH/mrs_mapplan_octomapping.launch config_octomap_server:=./config/octomap/octomap_server.yaml config_octomap_planner:=./config/octomap/octomap_planner.yaml config_pcl_filter_ouster:=./config/octomap/lidar_filter_mapping.yaml world_frame_id:=$UAV_NAME/liosam_origin
+  # - t_goto_octo:
+  #     layout: tiled
+  #     panes:
+  #       - waitForHw; history -s roslaunch mrs_uav_autostart automatic_start.launch
+  #       - 'history -s rosservice call /$UAV_NAME/control_manager/goto \"goal: \[12.0, 51.0, 3.0, 0.0]\"'
+  #       - 'history -s rosservice call /$UAV_NAME/control_manager/goto \"goal: \[5.0, 21.5, 3.0, 0.0\]\"'
+  #       - 'history -s rosservice call /$UAV_NAME/control_manager/stop \"{}\"'
+  # - Nimbro:
+  #       layout: tiled
+  #       panes:
+  #         - waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_throttle.launch
+  #         - waitForTime; rosrun mrs_openswarm_real run_nimbro.py ./config/network_config.yaml `rospack find mrs_openswarm_real`/config/communication_config.yaml
+  # - bag:
+  #     layout: tiled
+  #     panes:
+  #       - waitForRos; [ $SYS_ROSBAG_ENABLED -eq 1 ] && history -s rosbag record $SYS_ROSBAG_ARGS $SYS_ROSBAG_TOPICS || exit
+  # - rviz:
+  #     layout: tiled
+  #     panes:
+  #       - waitForTime; [ $USE_RVIZ -eq 1 ] && roslaunch $ROS_LAUNCH_PATH/mrs_rviz.launch
+  #       - waitForTime; [ $USE_RVIZ -eq 1 ] && roslaunch $ROS_LAUNCH_PATH/display_zd700.launch
+  #       - waitForTime; [ $USE_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins rviz_interface.launch

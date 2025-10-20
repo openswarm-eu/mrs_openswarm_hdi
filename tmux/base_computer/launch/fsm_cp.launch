@@ -1,0 +1,59 @@
+<launch>
+
+  <!-- args corresponding to environment variables -->
+  <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+  <arg name="UAV_NAMES" default="$(optenv UAV_NAMES)" />
+  <arg name="latitude" default="$(optenv DATUM_LATITUDE)"/>
+  <arg name="longitude" default="$(optenv DATUM_LONGITUDE)"/>
+  <!-- args corresponding to environment variables of swarm -->
+  <arg name="height_formation" default="$(optenv SWARM_HEIGHT)" />
+  <arg name="latitude_start" default="$(optenv DATUM_LATITUDE_START)"/>
+  <arg name="longitude_start" default="$(optenv DATUM_LONGITUDE_START)"/>
+  <arg name="latitude_end" default="$(optenv DATUM_LATITUDE_END)"/>
+  <arg name="longitude_end" default="$(optenv DATUM_LONGITUDE_END)"/>
+  <arg name="distance" default="6.0"/>
+  <!-- args corresponding to modes -->
+  <arg name="mode" default="complete"/> <!-- complete, partial, minimal, none -->
+
+  <group ns="$(arg UAV_NAME)">
+    <node name="uav_fsm" pkg="mrs_openswarm_utils" type="fsm_cp_v3.py" output="screen">
+      <param name="uav_name" value="$(arg UAV_NAME)" />
+      <param name="uav_names" type="yaml" value="$(arg UAV_NAMES)"/>
+      <!-- <param name="faulty_uavs" type="yaml" value="[uav6, uav7, uav8, uav9, uav10, uav11]"/> -->
+      <param name="mode" value="$(arg mode)" />
+      <param name="latitude" value="$(arg latitude)" />
+      <param name="longitude" value="$(arg longitude)" />
+        <!-- args corresponding to formation -->
+      <param name="height_formation" type="double" value="$(arg height_formation)" />
+      <param name="latitude_start" type="double" value="$(arg latitude_start)" />
+      <param name="longitude_start" type="double" value="$(arg longitude_start)" />
+      <param name="latitude_end" type="double" value="$(arg latitude_end)" />
+      <param name="longitude_end" type="double" value="$(arg longitude_end)" />
+      <!-- For six drones: pentagon_center, or regular or v_formation -->
+      <param name="six_formation" value="v_formation" /> 
+      <!-- For nine drones: octogon_center, or regular or v_formation or v_formation_zig -->
+      <param name="nine_formation" value="v_formation_zig" /> 
+      <!-- tools for debugging -->
+      <param name="pass_init_takeoff" value="false" />
+      <!-- distance between drones -->
+      <param name="distance" type="double" value="$(arg distance)" />
+
+      <!-- Define the waypoint list as a parameter -->
+      <param name="waypoint_list" type="yaml" value="[
+          [$(arg latitude_start), $(arg longitude_start), $(arg height_formation)],
+          [$(arg latitude_end), $(arg longitude_end), $(arg height_formation)],
+          [41.232667, -8.490668, $(arg height_formation)],
+          [41.232661, -8.489987, $(arg height_formation)],
+          [41.232237, -8.489678, $(arg height_formation)],
+          [$(arg latitude_start), $(arg longitude_start), $(arg height_formation)]
+      ]"/>
+
+      <!-- <param name="waypoint_list" type="yaml" value="[
+          [$(arg latitude_start), $(arg longitude_start), $(arg height_formation)],
+          [$(arg latitude_end), $(arg longitude_end), $(arg height_formation)]
+      ]"/> -->
+
+    </node>
+  </group>
+
+</launch> 

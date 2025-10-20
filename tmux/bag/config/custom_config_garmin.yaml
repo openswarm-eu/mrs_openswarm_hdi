@@ -1,0 +1,684 @@
+mrs_uav_managers:
+
+  estimation_manager:
+
+    state_estimators: [
+      "liosam",
+      "gps_garmin",
+      "passthrough"
+    ]
+
+    initial_state_estimator: "gps_garmin"   # will be used as the first state estimator
+    agl_height_estimator: "garmin_agl"  # only slightly filtered height for checking min height (not used in control feedback)
+
+    passthrough: # namespace of the state estimator
+      alt_garmin: # namespace of the altitude estimator
+
+        max_flight_z: 100.0 # [m] maximum allowed flight Z (in the estimator frame)
+
+    gps_garmin: # namespace of the state estimator
+      alt_garmin: # namespace of the altitude estimator
+
+        max_flight_z: 100.0 # [m] maximum allowed flight Z (in the estimator frame)
+
+    # namespace of the state estimator
+    liosam:
+
+      address: "liosam/LiosamEstimatorPlugin"
+
+      requires: # data required from the hw api
+        gnss: false
+        imu: false
+        distance_sensor: true
+        altitude: false
+        magnetometer_heading: false
+        position: false
+        orientation: true
+        velocity: true
+        angular_velocity: true
+
+      override_frame_id: # override the default frame_id with a custom one (e.g. slam_origin instead of aloam_origin)
+        enabled: false
+        frame_id: "slam_origin" # the desired frame_id without the UAV namespace
+
+      estimators: # the names of the partial estimators
+        lateral:
+          name: "lat_liosam"
+        altitude:
+          name: "alt_liosam"
+        heading:
+          name: "hdg_liosam"
+          passthrough: false # if true, then heading is not estimated but passed through from the orientation topic
+
+      topics:
+        orientation: "hw_api/orientation" # orientation passthrough
+        angular_velocity: "hw_api/angular_velocity" # angular velocity passthrough
+
+      # namespace of the altitude estimator
+      alt_liosam: 
+
+        max_flight_z: 100.0 # [m] maximum allowed flight Z (in the estimator frame)
+ 
+        innovation:
+          limit: 1.0 # [m] innovation limit that will trigger action
+          action: "mitigate" # {"eland", "switch", "mitigate"}
+  
+        repredictor: # repredictor for correct fusion of delayed measurements
+          enabled: false
+          buffer_size: 200 # [samples] how many states and corrections are kept in history (i.e. estimator running at the default 100 Hz rate will be able to fuse corrections with up to 2 s delay with buffer size of 200 samples)
+  
+        process_noise: # process noise covariance (Q)
+          pos: 1.0 # position state
+          vel: 1.0 # velocity state
+          acc: 1.0 # acceleration state
+  
+        corrections: [
+          # "pos_liosam",
+          "pos_garmin",
+          "vel_hw_api"
+        ]
+  
+        # pos_liosam:
+        #   state_id: 0 # 0 - position, 1 - velocity, 2 - acceleration
+        #   noise: 0.01 # measurement noise covariance (R)
+        #   noise_unhealthy_coeff: 100.0 # covariance gets multiplied by this coefficient when correction is unhealthy (R)
+        #   message:
+        #     type: "nav_msgs/Odometry"
+        #     topic: "odom" # without uav namespace
+        #     limit: 
+        #       delay: 2.0 # [s] messages with higher delay will flag correction as unhealthy
+        #       time_since_last: 1.0 # [s] larger time step between messages will flag correction as unhealthy
+  
+        #   processors: [] # types of processors attached to this measurement
+
+        pos_garmin:
+          state_id: 0 # 0 - position, 1 - velocity, 2 - acceleration
+          noise: 0.1 # measurement noise covariance (R)
+          noise_unhealthy_coeff: 100.0 # covariance gets multiplied by this coefficient when correction is unhealthy (R)
+          message:
+            type: "sensor_msgs/Range"
+            topic: "hw_api/distance_sensor" # without uav namespace
+            limit: 
+              delay: 0.5 # [s] messages with higher delay will flag correction as unhealthy
+              time_since_last: 2.0 # [s] larger time step between messages will flag correction as unhealthy
+
+          processors: ["excessive_tilt", "median_filter", "saturate"] # types of processors attached to this measurement (the processors are called in exactly this order)
+          
+          median_filter:
+            buffer_size: 100 # [samples] number of historic values from which the median is calculated
+            max_diff: 2.0 # [m] difference of input value from median to be considered valid
+
+          saturate:
+            start_enabled: true # saturate processor can start as disabled and then be enabled by a service or a trigger condition
+            keep_enabled: true # keep enabled even after the corrections are near the value of state
+            min: -0.1
+            max: 0.1
+            limit: 2.0
+
+          excessive_tilt:
+            orientation_topic: "hw_api/orientation"
+            max_tilt: 30.0 # [deg]
+
+        # Parameters of altitude median filters - buffer_size , max_diff 
+        vel_hw_api:
+          state_id: 1 # 0 - position, 1 - velocity, 2 - acceleration
+          noise: 0.01 # measurement noise covariance (R)
+          noise_unhealthy_coeff: 100.0 # covariance gets multiplied by this coefficient when correction is unhealthy (R)
+          message:
+            type: "geometry_msgs/Vector3Stamped"
+            topic: "hw_api/velocity" # without uav namespace
+            limit: 
+              delay: 1.0 # [s] messages with higher delay will flag correction as unhealthy
+              time_since_last: 0.5 # [s] larger time step between messages will flag correction as unhealthy
+
+          processors: [] # types of processors attached to this measurement
+
+          # median_filter:
+          #   buffer_size: 20 # the number of samples from which the median is calculated
+          #   max_diff: 2.0 # [m] reject measurement if difference from median is over this value
+
+      # namespace of the heading estimator
+      hdg_liosam: 
+
+        max_flight_z: 100.0 # [m] maximum allowed flight Z (in the estimator frame)
+
+        position_innovation_limit: 1.0 # [m] innovation limit that will trigger switch to other estimator
+
+        repredictor: # repredictor for correct fusion of delayed measurements
+          enabled: true
+          buffer_size: 200 # [samples] how many states and corrections are kept in history (i.e. estimator running at the default 100 Hz rate will be able to fuse corrections with up to 2 s delay with buffer size of 200 samples)
+
+        process_noise: # process noise covariance (Q)
+          pos: 0.1 # position state
+          vel: 0.1 # velocity state
+
+        corrections: [
+          "hdg_liosam"
+        ]
+
+        hdg_liosam:
+          state_id: 0 # 0 - position, 1 - velocity, 2 - acceleration
+          noise: 0.0001 # measurement noise covariance (R)
+          noise_unhealthy_coeff: 100.0 # covariance gets multiplied by this coefficient when correction is unhealthy (R)
+          message:
+            type: "nav_msgs/Odometry"
+            topic: "lio_sam/imupreintegration/odom" # without uav namespace
+            limit: 
+              delay: 2.0 # [s] messages with higher delay will flag correction as unhealthy
+              time_since_last: 1.0 # [s] larger time step between messages will flag correction as unhealthy
+
+          processors: [] # types of processors attached to this measurement
+
+      # namespace of the lateral estimator
+      lat_liosam: 
+
+        hdg_source_topic: "liosam/hdg_liosam/output" # [mrs_uav_state_estimation/EstimatorOutput]
+
+        innovation:
+          limit: 1.0 # [m] innovation limit that will trigger action
+          action: "mitigate" # {"eland", "switch", "mitigate"}
+
+        max_flight_z: 100.0 # [m] maximum allowed flight Z (in the estimator frame)
+
+        repredictor: # repredictor for correct fusion of delayed measurements
+          enabled: true
+          buffer_size: 200 # [samples] how many states and corrections are kept in history (i.e. estimator running at the default 100 Hz rate will be able to fuse corrections with up to 2 s delay with buffer size of 200 samples)
+
+        process_noise: # process noise covariance (Q)
+          pos: 1.0 # position state
+          vel: 10.0 # velocity state
+          acc: 0.1 # acceleration state
+
+        corrections: [
+          "pos_liosam"
+        ]
+
+        pos_liosam:
+          state_id: 0 # 0 - position, 1 - velocity, 2 - acceleration
+          noise: 0.01 # measurement noise covariance (R)
+          noise_unhealthy_coeff: 100.0 # covariance gets multiplied by this coefficient when correction is unhealthy (R)
+          message:
+            type: "nav_msgs/Odometry"
+            topic: "lio_sam/imupreintegration/odom" # without uav namespace
+            limit: 
+              delay: 2.0 # [s] messages with higher delay will flag correction as unhealthy
+              time_since_last: 1.0 # [s] larger time step between messages will flag correction as unhealthy
+
+          processors: [] # types of processors attached to this measurement
+          # processors: ["tf_to_world"] # types of processors attached to this measurement
+
+          # tf_to_world:
+          #   gnss_topic: "gnss_verifier/gnss_wstatus"
+
+  constraint_manager:
+
+    estimator_types: [
+      "liosam",
+      "gps_garmin",
+      "passthrough"
+    ]
+
+    constraints: [
+      "ingeniarius",
+      "slow",
+      "medium",
+      "fast",
+    ]
+
+    # list of allowed gains per odometry mode
+    allowed_constraints:
+      liosam: ["ingeniarius","slow", "medium", "fast"]
+      gps_garmin: ["slow", "medium", "fast"]
+      passthrough: ["slow", "medium", "fast"]
+
+    # those gains will be used automatically when a localization mode switches
+    # and the current gains are not in the allowed list (next paragraphs)
+    default_constraints:
+      liosam: "slow"
+      gps_garmin: "slow"
+      passthrough: "slow"
+
+    ingeniarius:
+
+      horizontal:
+        speed: 0.5
+        acceleration: 0.5
+        jerk: 10.0
+        snap: 10.0
+
+      vertical:
+
+        ascending:
+          speed: 0.5
+          acceleration: 0.5
+          jerk: 10.0
+          snap: 10.0
+
+        descending:
+          speed: 0.5
+          acceleration: 0.5
+          jerk: 10.0
+          snap: 10.0
+
+      heading:
+        speed: 0.5
+        acceleration: 1.0
+        jerk: 20.0
+        snap: 20.0
+
+      angular_speed:
+        roll: 60.0 #30.0
+        pitch: 60.0 #30.0
+        yaw: 10.0 #5.0
+
+      tilt: 60.0 # [deg]
+
+  gain_manager:
+
+    estimator_types: [
+      "liosam",
+      "gps_garmin",
+      "passthrough"
+    ]
+
+    gains: [
+      "ingeniarius",
+      "supersoft",
+      "soft"
+    ]
+
+    # list of allowed gains per odometry mode
+    allowed_gains:
+      liosam: ["ingeniarius", "supersoft", "soft"]
+      gps_garmin: ["supersoft", "soft"]
+      passthrough: ["supersoft", "soft"]
+
+    # those gains will be used automatically when a localization mode switches
+    # and the current gains are not in the allowed list (next paragraphs)
+    default_gains:
+      liosam: "ingeniarius"
+      gps_garmin: "soft"
+      passthrough: "soft"
+
+    ingeniarius:
+
+      horizontal:
+        kp: 0.5   # (default: 3.0)
+        kv: 0.7   # (default: 2.0) 0.8
+        ka: 0.1   # (default: 1.0) 0.1
+
+        kib: 0.1      # (default: 0.1)
+        kib_lim: 10.0
+
+        kiw: 0.1       # (default: 0.1)
+        kiw_lim: 10.0
+
+      vertical:
+        kp: 5.0   # (default: 15.0)
+        kv: 3.0   # (default: 8.0)
+        ka: 0.3   # (default: 1.0)
+
+      attitude:
+        kq_roll_pitch: 2.0  # (default: 5.0) 2.0
+        kq_yaw: 1.5         # (default: 5.0)
+
+      mass_estimator:
+        km: 0.5   # (default: 0.5)
+
+        # the maximum estimated uav mass difference
+        km_lim: 20.0 # [kg, at least 1/2 of the UAVs mass to allow landing detection]
+
+  transform_manager:
+
+    liosam:
+      odom_topic: "odom" # name of the topic (expects nav_msgs/Odometry topic type)
+      tf_from_attitude: # used for transforming velocities before full transform is available
+        enabled: true
+        attitude_topic: "attitude" # name of the attitude topic(expects geometry_msgs/QuaternionStamped topic type)
+      namespace: "estimation_manager/liosam" # the namespace of the topic (usually the node that publishes the topic)
+      utm_based: false # if true, will publish tf to utm_origin
+      inverted: true # publish as inverted tf (the default for inverted mrs tf tree convention)
+      republish_in_frames: [] # the odometry message will be transformed and republished in the specified frames
+
+    # mapping_origin_tf:
+    #   enabled: true
+    #   debug_prints: false
+    #   lateral_topic: "odom" # name of the topic used for x, y components of the tf (expects nav_msgs/Odometry topic type)
+    #   altitude_topic: "odom" # name of the topic  used for z components of the tf (expects nav_msgs/Odometry topic type)
+    #   orientation_topic: "hw_api/orientation" # name of the topic  used for orientation components of the tf (expects geometry_msgs/Quaternion topic type)
+    #   inverted: true # publish as inverted tf (the default for inverted mrs tf tree convention)
+    #   custom_frame_id:
+    #     enabled: true
+    #     frame_id: "mapping_origin"
+
+  uav_manager:
+
+    # require gain or constraint manager running to takeoff?
+    require_gain_manager: false       #### 
+    require_constraint_manager: false ####
+
+    takeoff:
+
+      rate: 10 # [Hz]
+
+      during_takeoff:
+        controller: "Se3Controller"
+        tracker: "LandoffTracker"
+
+      after_takeoff:
+        controller: "Se3Controller"
+        tracker: "MpcTracker"
+
+      takeoff_height: 10.0
+
+    landing:
+
+      rate: 10 # [Hz]
+      landing_tracker: "LandoffTracker"
+      landing_controller: "MpcController"
+
+      # those two must apply simultaneously
+      landing_cutoff_mass_factor:  0.5 # how much lighter does the drone appear to be?
+      landing_cutoff_timeout:  2.0 # [s] how long does the throttle has to be below the mass factor
+
+      disarm: false ### ING(7): true -> false ### 
+
+    # detecting if desired throttle cross max threshold, triggers landing after that
+    max_throttle:
+
+      enabled: true
+      rate: 30 # [Hz]
+      max_throttle: 0.80 # [-]
+      eland_timeout: 10.0 # [s]  ### ING: 1.0 -> 3.0 ###
+      ungrip_timeout: 0.5 # [s]
+
+  control_manager:
+
+    state_input: 0 # {0 = mrs_msgs::UavState, 1 = nav_msgs::Odometry} ### ING(6): 0 -> 1 ###
+
+    # tracker used for landing and takeoff
+    landing_takeoff_tracker: "LandoffTracker"
+
+    safety:
+
+      tilt_limit:
+
+        eland:    ### ING(2): true -> false ###
+          enabled: false
+          limit: 75.0 # [deg]
+
+        disarm:
+          enabled: false
+          limit: 75.0 # [deg]
+
+      tilt_error_disarm:
+        enabled: false
+        timeout: 0.5 # [s] # for how long the error has to be present to disarm
+        error_threshold: 20.0 # [deg]
+
+      yaw_error_eland:  ### ING(3): true -> false ###
+        enabled: false
+        limit: 90.0 # [deg]
+
+      # tracker used for emergency hover routine
+      ehover_tracker: "LandoffTracker"
+
+      # controller used for safety landing (feed forward)
+      failsafe_controller: "FailsafeController"
+
+      # after not receiving odometry for more than this, the failsafe landing will trigger
+      # will be overriden for ACCELERATION+ output mode
+      odometry_max_missing_time: 0.1 # [s]
+
+      # trigger eland when the odometry corrections are too unreliable
+      # - should be false when using custom odometry source without available innovation values
+      # - the innovation limit is set per-controller in the controllers.yaml file
+      odometry_innovation_eland:    ### ING(1): true -> false ###
+        enabled: false
+
+      # emergency landing (still feedback)
+      eland:
+
+        controller: "EmergencyController"
+
+        # Making those numbers smaller than "factor: 0.5, timeout: 2.0" can result in premature
+        # landing detection, especially in the case of wild eland with weird initial conditions.
+        # It might be safe with just the normal landing though.
+        cutoff_mass_factor:  0.5 # how much lighter does the drone appear to be?
+        cutoff_timeout:  2.0 # [s] how long does the throttle has to be below the mass factor
+
+        disarm: true
+        timer_rate: 10 # [Hz]
+
+      escalating_failsafe:
+
+        service:
+          enabled: true # can be called by a service
+
+        rc:
+          enabled: true # can be triggered by RC button
+          channel_number: 7 # [-],  activation RC channel
+          threshold: 0.5 # [%/100]
+
+        # how often does it allow to escalate
+        timeout: 2.0 # [s]
+
+        ehover: true
+        eland: true
+        failsafe: false
+
+      parachute:
+
+        enabled: false
+
+      # when the active tracker returns empty command
+      tracker_error_action: "ehover" # {eland, ehover} ### ING(5): eland -> ehover ###
+
+      # handoff directly to RC control
+      # * overrides eland and failsafe landing
+      # * recommended when flying over water
+      rc_emergency_handoff:
+        enabled: false
+
+      min_throttle_null_tracker: 0.10 # [] minimum throttle when not flying
+
+    trajectory_tracking:
+
+      snap_to_safety_area: false
+
+    obstacle_bumper:
+
+      enabled: false
+
+      switch_tracker: true
+      tracker: "MpcTracker"
+
+      switch_controller: true
+      controller: "Se3Controller"
+
+      horizontal:
+
+        min_distance_to_obstacle: 1.2 # [m]
+
+        # when enabled, the min_distance_to_obstacle will increased by the distances
+        # needed for stopping given the current system constraints
+        derived_from_dynamics: true
+
+      vertical:
+
+        min_distance_to_obstacle: 1.2 # [m]
+
+        # when enabled, the min_distance_to_obstacle will increased by the distances
+        # needed for stopping given the current system constraints
+        derived_from_dynamics: true
+
+    joystick:
+
+      enabled: true
+
+      # the trajectory mode is for debugging trajectory control ONLY
+      mode: 0 # {0 = goto, 1 = trajectory}
+
+      # carrot on a stick distance for the goto mode
+      carrot_distance: 4.00 # [m]
+
+      joystick_timer_rate: 30 # [Hz]
+
+      # mainly for tuning low-level attitude controllers
+      # is initiated by pressing "start" for > 3 secs
+      attitude_control:
+
+        # tracker and controller used to control the drone using a joystick
+        tracker: "JoyTracker"
+        controller: "MpcController"
+
+        # what tracker and controller should be activate when
+        # switching back from joystick control?
+        fallback:
+
+          tracker: "MpcTracker"
+          controller: "EmergencyController"
+
+      # channel numbers, indeces in array
+      channels:
+
+        # The main front buttons
+        # if any of those are pressend in the "joystic control mode",
+        # the control returns back to autonomy using the "fallback"
+        # controller and tracker
+        A: 0 # []
+        B: 1 # []
+        X: 2 # []
+        Y: 3 # []
+
+        # if the "start" button is pressed and held down for > 3 sec, the UAV switches
+        # to a tracker and controller specified above in the "attitude_control" section.
+        # Autonomy in this mode is not guaranteed, it depends on the specified tracker and controller.
+        start: 7 # []
+
+        # If "back" button is pressed, the UAV switches to a GOTO mode, where
+        # references are set using the joystick. This is fully autonomous mode,
+        # or more specifically, it uses the tracker and controller which were
+        # already active.
+        back: 6 # []
+
+        # if LT and RT are pressed together, the failsafe is triggered
+        LT: 2 # [] left trigger
+        RT: 5 # [] right trigger
+
+        # if L_joy and R_joy are pressed together, emergency landing is triggered
+        L_joy: 9 # [] pressing left joypad
+        R_joy: 10 # [] pressing right joypad
+
+        pitch: 1 # []
+        roll: 3 # []
+        heading: 0 # []
+        throttle: 4 # []
+
+      # multipliers for scaling and reversing the channels
+      channel_multipliers:
+
+        pitch: 1.0 # []
+        roll: 1.0 # []
+        heading: 1.0 # []
+        throttle: 1.0 # []
+
+    rc_joystick:
+
+      enabled: true
+      # activation channel
+      channel_number: 6 # indexed from 0
+
+      horizontal_speed: 1.00 # [m/s]
+      vertical_speed: 1.00 # [m/s]
+      heading_rate: 0.20 # [rad/s]
+
+      channels:
+        pitch: 2
+        roll: 0
+        heading: 3
+        throttle: 1
+
+    pirouette:
+
+      speed: 0.25 # [rad/s]
+      timer_rate: 10 # [Hz]
+
+    Se3Controller: ### ING(4): 1.5 -> 3.0 ###
+      eland_threshold: 3.0 # [m], position error triggering eland
+      failsafe_threshold: 2.5 # [m], position error triggering failsafe land
+      odometry_innovation_threshold: 1.5 # [m], position odometry innovation threshold
+
+    MpcController:  ### ING(4): 3.5 -> 7.0 ###
+      eland_threshold: 7.0 # [m], position error triggering eland
+      failsafe_threshold: 4.5 # [m], position error triggering failsafe land
+      odometry_innovation_threshold: 2.5 # [m], position odometry innovation threshold
+
+mrs_uav_controllers:
+
+  se3_controller:
+
+    se3:
+
+      constraints:
+
+        throttle_saturation: 0.9 # [-], range from 0 to 1
+
+        # When the controller wants to output tilt larger than this,
+        # it will return an empty command instead, which should trigger
+        # a failsafe in the control manager.
+        tilt_angle_failsafe:
+          enabled: false
+          limit: 90.0 # [deg]
+
+      angular_rate_feedforward:
+
+        # compensation of a parasitic heading rate due to pitch and roll rate
+        parasitic_pitch_roll: true
+
+        # jerk feed forward
+        jerk: true
+
+      rotation_matrix: 1 # {0 = lee, 1 = baca (oblique projection)}
+
+      # preferred output mode:
+      # - choose this one if more output modes are available
+      preferred_output: 2 # {0 = actuators,
+                          #  1 = control_group,
+                          #  2 = attitude_rate,
+                          #  3 = attitude,}
+
+    # PID gains for the position controller
+    # used only when outputing desired "velocity"
+    position_controller:
+
+      translation_gains:
+        p: 2.0
+        d: 0.15
+        i: 0.2
+      heading_gains:
+        p: 1.0
+        d: 0.1
+        i: 0.01
+
+mrs_uav_trackers:
+
+  mpc_tracker:
+
+    diagnostics: # diagnostics publisher
+      rate: 10                             # [Hz]
+      position_tracking_threshold: 1.0     # [m] distance considered as "in place"
+      orientation_tracking_threshold: 0.3  # [rad] orientation error considered as fine during tracking
+
+    wiggle:
+      enabled: false
+      amplitude: 0.5 # [m]
+      frequency: 0.2 # [Hz]
+
+    # mrs collision avoidance
+    collision_avoidance:
+
+      enabled:           true # disabling this will stop this UAV to react to others, but it will still transmit data to others
+      enabled_passively: true # disabling this will stop this uav to even transmit its data to others (only if enabled: false)
+      radius: 1.0 # [m] ### ING(8): 5.0 -> 1.0 ###
+      correction: 3.0 # [m]

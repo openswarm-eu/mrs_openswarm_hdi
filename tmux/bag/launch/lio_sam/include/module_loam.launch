@@ -1,0 +1,32 @@
+<launch>
+
+    <arg name="project" default="lio_sam"/>
+    <arg name="ROS_CONFIG_PATH" default="$(optenv ROS_CONFIG_PATH)" />
+    <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+
+    <!-- Namespace -->
+    <arg name="lidarFrame" default="$(optenv UAV_NAME)/fcu" />
+    <arg name="baselinkFrame" default="$(optenv UAV_NAME)/fcu" />
+    <arg name="odometryFrame" default="$(optenv UAV_NAME)/odom" />
+    <arg name="mapFrame" default="$(optenv UAV_NAME)/map" />
+
+    <group ns="$(arg UAV_NAME)">
+      <!-- parameters -->
+      <rosparam file="$(arg ROS_CONFIG_PATH)/loc_lio_sam/loc_lio_sam.yaml" command="load" />
+
+      <!-- Definition of frames -->
+      <rosparam param="lio_sam/lidarFrame" subst_value="True">$(arg lidarFrame)</rosparam>
+      <rosparam param="lio_sam/baselinkFrame" subst_value="True">$(arg baselinkFrame)</rosparam>
+      <rosparam param="lio_sam/odometryFrame" subst_value="True">$(arg odometryFrame)</rosparam>
+      <rosparam param="lio_sam/mapFrame" subst_value="True">$(arg mapFrame)</rosparam>
+
+      <!--- lio-sam main nodes -->
+      <node pkg="$(arg project)" type="$(arg project)_imuPreintegration"   name="$(arg project)_imuPreintegration"    output="screen" 	respawn="true"/>
+      <node pkg="$(arg project)" type="$(arg project)_imageProjection"     name="$(arg project)_imageProjection"      output="screen"     respawn="true"/>
+      <node pkg="$(arg project)" type="$(arg project)_featureExtraction"   name="$(arg project)_featureExtraction"    output="screen"     respawn="true"/>
+      <node pkg="$(arg project)" type="$(arg project)_mapOptmization"      name="$(arg project)_mapOptmization"       output="screen"     respawn="true"/>
+		
+	</group>
+    
+   
+</launch>

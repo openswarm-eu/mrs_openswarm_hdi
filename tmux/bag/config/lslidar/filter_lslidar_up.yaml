@@ -1,0 +1,8 @@
+min_x: -0.6
+max_x: 0.6
+min_y: -0.6
+max_y: 0.6
+min_z: -0.05
+max_z: 0.3
+keep_organized: true
+negative: true

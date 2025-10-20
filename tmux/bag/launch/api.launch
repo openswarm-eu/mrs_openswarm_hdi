@@ -1,0 +1,70 @@
+<launch>
+
+  <!-- args corresponding to environment variables -->
+  <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+  <arg name="LOGGER_DEBUG" default="$(optenv LOGGER_DEBUG false)" />
+  <arg name="RUN_TYPE" default="$(optenv RUN_TYPE uav)" />
+  <arg name="OLD_PX4_FW" default="$(optenv OLD_PX4_FW 0)" />
+
+  <!-- other args -->
+  <arg name="debug" default="false" />
+  <arg name="standalone" default="true" />
+  <arg name="custom_config" default="" />
+
+  <env name="ROSCONSOLE_CONFIG_FILE" if="$(eval arg('LOGGER_DEBUG'))" value="$(find mrs_uav_hw_api)/config/debug_verbosity.yaml" />
+
+  <arg     if="$(eval arg('standalone') or arg('debug'))" name="nodelet" value="standalone" />
+  <arg unless="$(eval arg('standalone') or arg('debug'))" name="nodelet" value="load" />
+  <arg     if="$(eval arg('standalone') or arg('debug'))" name="nodelet_manager" value="" />
+  <arg unless="$(eval arg('standalone') or arg('debug'))" name="nodelet_manager" value="$(arg UAV_NAME)_nodelet_manager" />
+
+  <arg     if="$(arg debug)" name="launch_prefix" value="debug_roslaunch" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+
+  <group if="$(eval arg('RUN_TYPE') == 'realworld')">
+    <include file="$(find mrs_uav_px4_api)/launch/mavros_realworld.launch" />
+  </group>
+
+  <group ns="$(arg UAV_NAME)">
+
+    <node pkg="nodelet" type="nodelet" name="hw_api" args="$(arg nodelet) mrs_uav_hw_api/HwApiManager $(arg nodelet_manager)" output="screen" launch-prefix="$(arg launch_prefix)">
+
+      <rosparam file="$(find mrs_uav_hw_api)/config/hw_api.yaml" />
+      <rosparam file="$(find mrs_uav_px4_api)/config/px4_api.yaml" />
+
+      <!-- Load a user param file -->
+      <rosparam if="$(eval not arg('custom_config') == '')" file="$(arg custom_config)" />
+
+      <!-- Parameters -->
+      <param name="topic_prefix" type="string" value="/$(arg UAV_NAME)/" />
+      <param name="uav_name" type="string" value="$(arg UAV_NAME)" />
+      <param name="simulation" type="bool" value="$(eval arg('RUN_TYPE') == 'simulation')" />
+
+      <remap if="$(eval arg('RUN_TYPE') == 'simulation')" from="~ground_truth_in" to="ground_truth" />
+      <remap if="$(eval arg('RUN_TYPE') == 'realworld')" from="~rtk_in" to="rtk/bestpos" />
+      <remap from="~mavros_state_in" to="mavros/state" />
+      <remap if="$(eval arg('OLD_PX4_FW') == 0)" from="~mavros_local_position_in" to="mavros/odometry/in" />
+      <remap if="$(eval arg('OLD_PX4_FW') == 1)" from="~mavros_local_position_in" to="mavros/local_position/odom" />
+      <remap from="~mavros_global_position_in" to="mavros/global_position/global" />
+      <remap from="~mavros_garmin_in" to="mavros/distance_sensor/garmin" />
+      <remap from="~mavros_imu_in" to="mavros/imu/data" />
+      <remap from="~mavros_magnetometer_in" to="mavros/global_position/compass_hdg" />
+      <remap from="~mavros_magnetic_field_in" to="mavros/imu/mag" />
+      <remap from="~mavros_rc_in" to="mavros/rc/in" />
+      <remap from="~mavros_altitude_in" to="mavros/altitude" />
+      <remap from="~mavros_battery_in" to="mavros/battery" />
+      <remap from="~mavros_cmd_out" to="mavros/cmd/command" />
+      <remap from="~mavros_set_mode_out" to="mavros/set_mode" />
+      <remap from="~mavros_attitude_setpoint_out" to="mavros/setpoint_raw/attitude" />
+      <remap from="~mavros_actuator_control_out" to="mavros/actuator_control" />
+      <remap from="~mavros_gps_status_raw_in" to="mavros/gpsstatus/gps1/raw" />
+
+      <!-- <remap from="~distance_sensor" to="hw_api/distance_sensor_in" /> -->
+      <!-- <remap from="~imu" to="hw_api/imu_in" /> -->
+      <!-- <remap from="~orientation" to="hw_api/orientation_in" /> -->
+
+    </node>
+
+  </group>
+
+</launch>

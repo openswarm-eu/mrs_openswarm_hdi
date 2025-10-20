@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!-- export UAV_NAME="uavX" -->
+
+<launch>
+
+	<!-- tf2_ros syntax -->
+    <!-- x y z yaw pitch roll frame_id child_frame_id-->
+
+    <!-- IMU WITmotion -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="$(env UAV_NAME)_base_to_imu" 	args="0 0 0.15 0 0 0 $(env UAV_NAME)/fcu $(env UAV_NAME)/imu_link"/>
+
+	<!-- GPS -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="$(env UAV_NAME)_base_to_gps" 	args="0.17 -0.05 0.2 0 0 0 $(env UAV_NAME)/fcu $(env UAV_NAME)/gnss_link"/>
+
+	<!-- LIDAR -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="$(env UAV_NAME)_base_to_lidar" 	args="0 0 -0.15 1.5708 3.14159 0.174533 $(env UAV_NAME)/fcu $(env UAV_NAME)/lslidar_link"/>
+	
+	<!-- Garmin LIDAR 1D -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="$(env UAV_NAME)_base_to_garmin" 	args="0.11 0 -0.01 0 1.5708 0 $(env UAV_NAME)/fcu $(env UAV_NAME)/garmin"/>
+
+	<!-- FootPrint -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="$(env UAV_NAME)_base_to_footprint" 	args="0 0 -0.36 0 0 0 $(env UAV_NAME)/fcu $(env UAV_NAME)/base_footprint_link"/>
+
+</launch>

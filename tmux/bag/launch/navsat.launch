@@ -1,0 +1,40 @@
+<launch>
+
+    <arg name="latitude" default="$(optenv DATUM_LATITUDE)"/>
+    <arg name="longitude" default="$(optenv DATUM_LONGITUDE)"/>
+    <arg name="heading" default="$(optenv DATUM_HEADING)"/>
+
+    <arg name="robotPrefix" default="$(optenv UAV_NAME)"/>
+    <arg name="ROS_CONFIG_PATH" default="$(optenv ROS_CONFIG_PATH)" />
+   
+   <group ns="$(arg robotPrefix)">
+
+		<!-- parameters -->
+		<rosparam file="$(arg ROS_CONFIG_PATH)/navsat/navsat.yaml" command="load" />
+
+        <!-- Odom -->
+        <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="$(env UAV_NAME)_base_to_odom" 	args="0 0 0 0 0 0 $(env UAV_NAME)/odom_ $(env UAV_NAME)/fcu"/> -->
+
+        <!-- Map -->
+        <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="$(env UAV_NAME)_odom_to_map" 	args="0 0 0 0 0 0 $(env UAV_NAME)/map_navsat $(env UAV_NAME)/odom_"/> -->
+
+        <!-- EKF GPS-->
+        <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
+            <rosparam param="tf_prefix" subst_value="true">$(arg robotPrefix)</rosparam>
+            <remap from="odometry/filtered" to="odometry/navsat" />
+        </node>
+
+        <!-- Navsat -->
+        <node pkg="robot_localization" type="navsat_transform_node" name="navsat" respawn="true">
+            <rosparam param="datum" subst_value="true">
+                [$(arg latitude), $(arg longitude), $(arg heading)]
+            </rosparam>
+            <rosparam param="cartesian_frame_id" subst_value="true">$(env UAV_NAME)/utm_navsat</rosparam>
+            <rosparam param="tf_prefix" subst_value="true">$(arg robotPrefix)</rosparam>
+            <remap from="imu/data" to="hw_api/imu" />
+            <remap from="gps/fix" to="gnss_verifier/gnss_wstatus" />
+            <remap from="odometry/filtered" to="odometry/navsat" />
+        </node>
+	</group>
+
+</launch>

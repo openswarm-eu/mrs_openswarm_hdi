@@ -1,0 +1,53 @@
+# Motor thrust curve parameters
+# a - quadratic term
+# b - constant term
+# n_motors - number of motors on the UAV
+
+motor_params:
+  a: 0.666245
+  b: -1.354663
+  n_motors: 6
+
+uav_mass: 5.6 # [kg] - mass of the UAV without payload
+
+# these model parameters can be used when
+# - 'control group', and/or
+# - 'actuator control'
+# are accepted by the HW API.
+model_params:
+
+  arm_length: 0.40 # 0.25 # [m]
+  body_height: 0.62 # 0.1 # [m]
+
+  propulsion:
+
+    # force [N] = force_constant * rpm^2
+    force_constant: 0.00000040
+
+    # torque [Nm] = torque_constant * force [N]
+    torque_constant: 0.02513
+
+    prop_radius: 0.18 # [m]
+
+    # allocation motors -> torques
+
+    # quadrotor X configuration
+    # hexarotor X configuration
+    # [roll torque,      [            [RPM_1^2,
+    #  pitch torque,  =    Alloc    *  RPM_2^2,
+    #  yaw torque,         Matrix       ...
+    #  thrust force]              ]    RPM_n_motors^2]
+    allocation_matrix: [
+      1, -1, -0.5,  0.5,  0.5,   -0.5, # *= force_constant*arm_length
+      0, 0,  -0.87, 0.87, -0.87, 0.87, # *= force_constant*arm_length
+      1, -1, 1,     -1,   -1,    1,    # *= moment_constant*force_constant
+      1, 1,  1,     1,    1,     1     # *= force_constant
+    ]
+
+    # The UAV's inertia is approximated as a cilinder using the parameters above
+    # Alternatively, you can provide inertia matrix directly using the following parameter:
+    # inertia_matrix: []
+
+    rpm:
+      min: 976  # 1508 # 1170 # [revolutions/minute] ok
+      max: 6500 # 7114 # 7800 # [revolutions/minute] ok

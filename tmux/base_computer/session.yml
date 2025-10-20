@@ -1,0 +1,61 @@
+# do not modify these
+root: ./
+name: real_drone
+socket_name: mrs
+attach: false
+tmux_options: -f /etc/ctu-mrs/tmux.conf
+# you can modify these export
+pre_window: source ../../../mrs_openswarm_real/tmux/openswarm/scripts/env.sh; export COMPUTER_RVIZ=1
+startup_window: fsm
+windows:
+  - roscore:
+      layout: tiled
+      panes:
+        - roscore
+        - waitForRos; rosparam set use_sim_time false
+  - tf_relay:
+      layout: tiled
+      panes:
+        - export UAV_NAME=uav6; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav7; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav8; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav9; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav10; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav11; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav12; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav13; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav14; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+        - export UAV_NAME=uav15; waitForTime; roslaunch $ROS_LAUNCH_PATH/tf_relay.launch
+  - tf_connector:
+      layout: tiled
+      panes:
+        - waitForTime; roslaunch mrs_tf_connector tf_connector.launch custom_config:=./config/tf_connector_cp.yaml
+  - Nimbro:
+      layout: tiled
+      panes:
+        - waitForTime; rosrun mrs_openswarm_hdi run_nimbro.py `rospack find mrs_openswarm_real`/tmux/openswarm/config/network_config.yaml `rospack find mrs_openswarm_real`/config/communication_config.yaml
+  # - fsm_cp:
+  #     layout: tiled
+  #     panes:
+  #       - waitForTime; roslaunch $ROS_LAUNCH_PATH/fsm_cp.launch
+  - fsm:
+      layout: tiled
+      panes:
+        - 'history -s roslaunch $ROS_LAUNCH_PATH/fsm_cp_take_off.launch'
+  - tests:
+      layout: tiled
+      panes:
+        - 'history -s rosrun mrs_openswarm_hdi tests_collision.py'
+  - rviz:
+      layout: tiled
+      panes:
+        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && rosrun rviz rviz -d "./config/rviz/rviz_cp_lio.rviz" || exit
+        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins rviz_interface.launch || exit
+  - rviz_uav_models:
+      layout: tiled
+      panes:
+        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins load_robot.launch || exit
+  - urdf:
+      layout: tiled
+      panes:
+        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch $ROS_LAUNCH_PATH/display_zd700.launch || exit

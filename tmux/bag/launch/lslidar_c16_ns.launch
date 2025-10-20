@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="device_ip" default="192.168.1.200" />
+  <arg name="msop_port" default="2368"/>
+  <arg name="difop_port" default="2369"/>
+  <arg name="use_gps_ts" default="false" />
+  <arg name="pcl_type" default="false" />
+  <arg name="lidar_type" default="c16"/>
+  <arg name="packet_size" default="1206"/>
+  <arg name="c16_type" default="c16_2"/>
+  <arg name="rviz" default="false"/>
+  <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+  <arg name="ROS_CONFIG_PATH" default="$(optenv ROS_CONFIG_PATH)" />
+
+  <group ns="$(arg UAV_NAME)/lslidar">
+
+    <node pkg="lslidar_driver" type="lslidar_driver_node" name="lslidar_driver_node" output="screen">
+      <!--param name="pcap" value="$(find lslidar_driver)/pcap/xxx.pcap" /-->
+      <param name="device_ip" value="$(arg device_ip)" />
+      <param name="msop_port" value="$(arg msop_port)" />
+      <param name="difop_port" value="$(arg difop_port)"/>
+      <param name="pcl_type" value="$(arg pcl_type)"/>
+      <param name="lidar_type" value="$(arg lidar_type)"/>
+      <param name="packet_size" value="$(arg packet_size)"/>
+      <param name="c16_type" value="$(arg c16_type)"/>
+      <param name="add_multicast" value="false"/>
+      <param name="group_ip" value="224.1.1.2"/>
+      <param name="use_gps_ts" value="$(arg use_gps_ts)"/>
+      <param name="read_once" value="false"/>
+      <param name="min_range" value="0.15"/>
+      <param name="max_range" value="150.0"/>
+      <param name="horizontal_angle_resolution" value="0.18"/>
+      <param name="frame_id" value="$(arg UAV_NAME)/lslidar_link"/>
+      <param name="distance_unit" value="0.25"/>
+      <param name="angle_disable_min" value="0"/>
+      <param name="angle_disable_max" value="0"/>
+      <param name="packet_rate" value="840.0"/>
+      <param name="scan_num" value="8"/>
+      <param name="publish_scan" value="false"/>
+      <param name="pointcloud_topic" value="pcl_raw"/>
+      <param name="coordinate_opt" value="false"/>
+    </node>
+
+    <group if="$(arg rviz)">
+      <node pkg="rviz" type="rviz" name="rviz" args="-d $(find lslidar_driver)/rviz_cfg/lslidar.rviz"/>
+    </group>
+
+    <!-- PCL LIDAR Filter "crop box" -->
+    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+    <node pkg="nodelet" type="nodelet" name="crop_box_1" args="load pcl/CropBox pcl_manager" output="screen">
+        <remap from="~input" to="pcl_raw" />
+        <remap from="~output" to="pcl_raw_crop_temp" />
+        <param name="~input_frame" value="$(arg UAV_NAME)/lslidar_link"/> 
+        <rosparam command="load" file="$(arg ROS_CONFIG_PATH)/lslidar/filter_lslidar_down.yaml" />
+    </node>
+
+    <node pkg="nodelet" type="nodelet" name="crop_box_2" args="load pcl/CropBox pcl_manager" output="screen">
+        <remap from="~input" to="pcl_raw_crop_temp" />
+        <remap from="~output" to="pcl_filtered" />
+        <param name="input_frame" value="$(arg UAV_NAME)/lslidar_link"/>
+        <param name="output_frame" value="$(arg UAV_NAME)/fcu"/>
+        <rosparam command="load" file="$(arg ROS_CONFIG_PATH)/lslidar/filter_lslidar_up.yaml" />
+    </node>    
+
+    <!-- <node pkg="nodelet" type="nodelet" name="crop_box_3" args="load pcl/CropBox pcl_manager" output="screen">
+        <remap from="~input" to="lio_sam/mapping/map_local" />
+        <remap from="~output" to="lio_sam/mapping/map_local_filtered" />
+        <param name="input_frame" value="$(arg UAV_NAME)/odom"/>
+        <param name="output_frame" value="$(arg UAV_NAME)/fcu"/>
+        <rosparam command="load" file="$(arg ROS_CONFIG_PATH)/lslidar/filter_map_local.yaml" />
+    </node>    -->
+
+
+  </group> 
+  
+</launch>

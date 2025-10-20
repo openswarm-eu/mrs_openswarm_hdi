@@ -1,0 +1,18 @@
+<launch>
+    <arg name="pub_euler" default="false"/>
+    <arg name="UAV_NAME" default="$(optenv UAV_NAME uav1)"/>
+
+    <group ns="$(arg UAV_NAME)">
+
+        <rosparam command="load" file="$(find mrs_openswarm_real)/tmux/openswarm/config/imu/config.yml" />
+        <node name="witmotion_imu" pkg="witmotion_ros"  type="witmotion_ros_node" output="screen"/>
+
+        <!-- Debug quaternions to euler angles (rad) -->
+
+        <group if="$(arg pub_euler)">
+            <node pkg="topic_tools" type="transform" name="imu_euler_transf_node" output="screen" args="witmotion_imu/imu/orientation witmotion_imu/imu/euler geometry_msgs/Vector3 'tf.transformations.euler_from_quaternion([m.x, m.y, m.z, m.w])' -i tf" />
+        </group>
+        
+    </group>
+    
+</launch>

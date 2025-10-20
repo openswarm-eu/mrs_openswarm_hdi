@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot name="zd700">
+
+  <!-- Material Definitions -->
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <link name="fcu">
+    <visual>
+      <origin xyz="0.51 -0.58 0.31" rpy="-1.5708 0 1.5708" />
+      <geometry>
+        <mesh filename="package://tmux/openswarm/config/mesh/zd700.stl" scale="0.0012 0.0012 0.0012"/>
+      </geometry>
+      <material name="Gray">
+          <color rgba="0.6 0.6 0.6 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://tmux/openswarm/config/mesh/zd700.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+</robot>

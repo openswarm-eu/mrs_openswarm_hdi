@@ -1,0 +1,27 @@
+<launch>
+
+    <arg name="project" default="lio_sam"/>
+    <arg name="latitude" default="41.22060674"/>
+    <arg name="longitude" default="-8.52731794"/>
+    <arg name="heading" default="0.0"/>
+    <arg name="world_frame" default="map"/>
+    <arg name="body_frame" default="base_link"/>
+
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find lio_sam)/launch/include/rosconsole/rosconsole_error.conf"/>
+    
+    <!-- EKF GPS-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
+        <remap from="odometry/filtered" to="odometry/navsat" />
+    </node>
+
+    <!-- Navsat -->
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat" respawn="true">
+        <rosparam param="datum" subst_value="true">
+            [$(arg latitude), $(arg longitude), $(arg heading), $(arg world_frame), $(arg body_frame)]
+        </rosparam>
+        <remap from="imu/data" to="imu_rion" />
+        <remap from="gps/fix" to="gps/fix" />
+        <remap from="odometry/filtered" to="odometry/navsat" />
+    </node>
+
+</launch>

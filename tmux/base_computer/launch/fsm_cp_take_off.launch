@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- args corresponding to environment variables -->
+  <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+  <arg name="UAV_NAMES" default="$(optenv UAV_NAMES)" />
+  <arg name="mode" default="none"/> <!-- complete, partial, minimal, none -->
+
+  <group ns="$(arg UAV_NAME)">
+    <node name="uav_fsm" pkg="mrs_openswarm_utils" type="fsm_cp_take_off.py" output="screen">
+      <param name="uav_name" value="$(arg UAV_NAME)" />
+      <param name="uav_names" type="yaml" value="$(arg UAV_NAMES)"/>
+      <param name="mode" value="$(arg mode)" />
+    </node>
+  </group>
+
+</launch> 
