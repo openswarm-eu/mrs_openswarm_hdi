@@ -13,23 +13,35 @@
 # uav15_vpn: 
 
 # List of 9 hosts to ping
+# hosts=(
+#     192.168.8.170
+#     192.168.8.190
+#     192.168.8.160
+#     192.168.8.188
+#     192.168.8.254
+#     192.168.8.228
+#     192.168.8.137
+#     192.168.8.144
+#     192.168.8.146
+# )
+
 hosts=(
-    192.168.8.170
-    192.168.8.190
-    192.168.8.160
-    192.168.8.188
-    192.168.8.254
-    192.168.8.228
-    192.168.8.137
-    192.168.8.144
-    192.168.8.146
+    192.168.194.170
+    192.168.194.190
+    192.168.194.160
+    192.168.194.188
+    192.168.194.254
+    192.168.194.228
+    192.168.194.137
+    192.168.194.144
+    192.168.194.146
 )
 
 # Create a new tmux session named "ping"
 tmux new-session -s ping -d
 
 # First row
-tmux send-keys "./color_ping.sh ${hosts[0]}" C-m
+tmux send-keys "/home/ingeniarius/singularity_poc2/user_ros_workspace/src/mrs_openswarm_hdi/tmux/base_computer/scripts/color_ping.sh ${hosts[0]}" C-m
 tmux split-window -h
 tmux send-keys "./color_ping.sh ${hosts[1]}" C-m
 tmux split-window -h

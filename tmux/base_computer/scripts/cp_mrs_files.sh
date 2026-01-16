@@ -1,6 +1,6 @@
 # === CONFIGURATION ===
 # Path to updated folders (local)
-FILES_TO_DEPLOY=("../../../../mrs_openswarm_real/tmux/openswarm/")
+FILES_TO_DEPLOY=("/home/ingeniarius/singularity_poc2/user_ros_workspace/src/mrs_openswarm_real/tmux/forest/")
 
 # Remote directory where files are deployed
 REMOTE_DIR="/singularity_poc2/user_ros_workspace/src/mrs_openswarm_real/tmux/"
@@ -34,6 +34,7 @@ echo "Starting..."
 if [ $# -gt 0 ]; then
     drone_hosts=("$1")   # Use the provided argument
 else
+    # drone_hosts=("uav6_vpn" "uav7_vpn" "uav8_vpn" "uav9_vpn" "uav10" "uav11" "uav12" "uav13" "uav14" "uav15")
     drone_hosts=("uav6" "uav7" "uav8" "uav9" "uav10" "uav11" "uav12" "uav13" "uav14" "uav15")
 fi
 
