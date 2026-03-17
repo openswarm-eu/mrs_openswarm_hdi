@@ -5,14 +5,15 @@ socket_name: mrs
 attach: false
 tmux_options: -f /etc/ctu-mrs/tmux.conf
 # you can modify these export
-pre_window: source ../../../mrs_openswarm_real/tmux/openswarm/scripts/env.sh; export COMPUTER_RVIZ=1
-startup_window: fsm
+pre_window: source ../../../mrs_openswarm_real/tmux/forest/scripts/env.sh; export COMPUTER_RVIZ=1
+startup_window: roscore
 windows:
   - roscore:
       layout: tiled
       panes:
         - roscore
         - waitForRos; rosparam set use_sim_time false
+        - rosrun mrs_openswarm_hdi drone_dashboard.py
   - tf_relay:
       layout: tiled
       panes:
@@ -33,7 +34,7 @@ windows:
   - Nimbro:
       layout: tiled
       panes:
-        - waitForTime; rosrun mrs_openswarm_hdi run_nimbro.py `rospack find mrs_openswarm_real`/tmux/openswarm/config/network_config.yaml `rospack find mrs_openswarm_real`/config/communication_config.yaml
+        - waitForTime; rosrun mrs_openswarm_hdi run_nimbro.py `rospack find mrs_openswarm_real`/tmux/forest/config/network_config.yaml `rospack find mrs_openswarm_real`/config/communication_config.yaml
   # - fsm_cp:
   #     layout: tiled
   #     panes:
@@ -42,6 +43,12 @@ windows:
       layout: tiled
       panes:
         - 'history -s roslaunch $ROS_LAUNCH_PATH/fsm_cp_take_off.launch'
+  - t_goto:
+      layout: tiled
+      panes:
+        - 'history -s rosservice call /uav10/control_manager/goto_fcu \"goal: \[5.0, 0.0, 0.0, 0.0\]\"'
+        - 'history -s rosservice call /uav10/control_manager/stop \"{}\"'
+        - 'history -s rosservice call /uav10/uav_manager/takeoff \"{}\"'
   - tests:
       layout: tiled
       panes:
@@ -50,12 +57,12 @@ windows:
       layout: tiled
       panes:
         - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && rosrun rviz rviz -d "./config/rviz/rviz_cp_lio.rviz" || exit
-        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins rviz_interface.launch || exit
+        # - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins rviz_interface.launch || exit
   - rviz_uav_models:
       layout: tiled
       panes:
         - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch mrs_rviz_plugins load_robot.launch || exit
-  - urdf:
-      layout: tiled
-      panes:
-        - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch $ROS_LAUNCH_PATH/display_zd700.launch || exit
+  # - urdf:
+  #     layout: tiled
+  #     panes:
+  #       - waitForTime; [ $COMPUTER_RVIZ -eq 1 ] && roslaunch $ROS_LAUNCH_PATH/display_zd700.launch || exit

@@ -13,12 +13,12 @@
 
 # List of 3 hosts to ping
 hosts=(
-    192.168.194.228
+    192.168.194.160
 )
 
 # List of 9 hosts to ping
 users=(
-    uav9_vpn
+    uav11_vpn
 )
 
 # Create a new tmux session named "ping"
@@ -26,6 +26,10 @@ tmux new-session -s ping -d
 
 # First row
 tmux send-keys "ssh ${users[0]}" C-m
+tmux send-keys -t "$pane_ssh" "cd singularity_poc2/" C-m
+tmux send-keys -t "$pane_ssh" "export TERM=xterm" C-m
+tmux send-keys -t "$pane_ssh" "./wrapper.sh" C-m
+tmux send-keys -t "$pane_ssh" "make forest" C-m
 tmux split-window -h
 tmux send-keys "./color_ping.sh ${hosts[0]}" C-m
 

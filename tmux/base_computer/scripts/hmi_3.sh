@@ -13,16 +13,16 @@
 
 # List of 3 hosts to ping
 hosts=(
-    192.168.194.228
     192.168.194.190
     192.168.194.160
+    192.168.194.137
 )
 
 # List of 3 users to ping
 users=(
-    uav6
-    uav7
-    uav8
+    uav10
+    uav11
+    uav12
 )
 
 # Create a new tmux session named "ping"

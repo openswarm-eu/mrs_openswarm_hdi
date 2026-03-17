@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Axes_Common1
         - /Base1
         - /uav61
         - /uav61/LIO-SAM1
@@ -24,14 +23,6 @@ Panels:
         - /uav121
         - /uav121/LIO-SAM1
         - /uav121/OctoPlanner1
-        - /Axes1
-        - /Axes2
-        - /Axes3
-        - /Axes4
-        - /Axes5
-        - /Axes6
-        - /Axes7
-        - /Axes8
       Splitter Ratio: 0.49459460377693176
     Tree Height: 871
   - Class: rviz/Selection
@@ -118,249 +109,79 @@ Visualization Manager:
           Value: false
         odom_ned:
           Value: false
-        uav10/amsl_origin:
-          Value: true
-        uav10/base_footprint_link:
-          Value: true
-        uav10/fcu:
-          Value: true
-        uav10/fcu_untilted:
-          Value: true
-        uav10/fixed_origin:
-          Value: true
-        uav10/garmin:
-          Value: true
-        uav10/garmin_agl_origin:
-          Value: true
-        uav10/gnss_link:
-          Value: true
-        uav10/gps_garmin_origin:
-          Value: true
-        uav10/gps_garmin_origin_att_only:
-          Value: true
-        uav10/imu_link:
-          Value: true
-        uav10/local_origin:
-          Value: true
-        uav10/lslidar_link:
-          Value: true
-        uav10/odom:
-          Value: true
-        uav10/passthrough_origin:
-          Value: true
-        uav10/rtk_antenna:
-          Value: true
-        uav10/stable_origin:
-          Value: true
-        uav10/utm_navsat:
-          Value: true
-        uav10/utm_origin:
-          Value: true
-        uav10/world_origin:
-          Value: true
-        uav11/amsl_origin:
-          Value: true
-        uav11/base_footprint_link:
-          Value: true
-        uav11/fcu:
-          Value: true
-        uav11/fcu_untilted:
-          Value: true
-        uav11/fixed_origin:
-          Value: true
-        uav11/garmin:
-          Value: true
-        uav11/garmin_agl_origin:
-          Value: true
-        uav11/gnss_link:
-          Value: true
-        uav11/gps_garmin_origin:
-          Value: true
-        uav11/gps_garmin_origin_att_only:
-          Value: true
-        uav11/imu_link:
-          Value: true
-        uav11/local_origin:
-          Value: true
-        uav11/lslidar_link:
-          Value: true
-        uav11/odom:
-          Value: true
-        uav11/passthrough_origin:
-          Value: true
-        uav11/rtk_antenna:
-          Value: true
-        uav11/stable_origin:
-          Value: true
-        uav11/utm_navsat:
-          Value: true
-        uav11/utm_origin:
-          Value: true
-        uav11/world_origin:
-          Value: true
-        uav12/amsl_origin:
-          Value: true
-        uav12/base_footprint_link:
-          Value: true
-        uav12/fcu:
-          Value: true
-        uav12/fcu_untilted:
-          Value: true
-        uav12/fixed_origin:
-          Value: true
-        uav12/garmin:
-          Value: true
-        uav12/garmin_agl_origin:
-          Value: true
-        uav12/gnss_link:
-          Value: true
-        uav12/gps_garmin_origin:
-          Value: true
-        uav12/gps_garmin_origin_att_only:
-          Value: true
-        uav12/imu_link:
-          Value: true
-        uav12/local_origin:
-          Value: true
-        uav12/lslidar_link:
-          Value: true
-        uav12/odom:
-          Value: true
-        uav12/passthrough_origin:
-          Value: true
-        uav12/rtk_antenna:
-          Value: true
-        uav12/stable_origin:
-          Value: true
-        uav12/utm_navsat:
-          Value: true
-        uav12/utm_origin:
-          Value: true
-        uav12/world_origin:
-          Value: true
-        uav13/amsl_origin:
-          Value: true
-        uav13/base_footprint_link:
-          Value: true
-        uav13/fcu:
-          Value: true
-        uav13/fcu_untilted:
-          Value: true
-        uav13/fixed_origin:
-          Value: true
-        uav13/garmin:
-          Value: true
-        uav13/garmin_agl_origin:
-          Value: true
-        uav13/gnss_link:
-          Value: true
-        uav13/gps_garmin_origin:
-          Value: true
-        uav13/gps_garmin_origin_att_only:
-          Value: true
-        uav13/imu_link:
-          Value: true
-        uav13/local_origin:
-          Value: true
-        uav13/lslidar_link:
-          Value: true
-        uav13/odom:
-          Value: true
-        uav13/passthrough_origin:
-          Value: true
-        uav13/rtk_antenna:
-          Value: true
-        uav13/stable_origin:
-          Value: true
-        uav13/utm_navsat:
-          Value: true
-        uav13/utm_origin:
-          Value: true
-        uav13/world_origin:
-          Value: true
-        uav14/amsl_origin:
-          Value: true
-        uav14/base_footprint_link:
-          Value: true
-        uav14/fcu:
-          Value: true
-        uav14/fcu_untilted:
-          Value: true
-        uav14/fixed_origin:
-          Value: true
-        uav14/garmin:
-          Value: true
-        uav14/garmin_agl_origin:
-          Value: true
-        uav14/gnss_link:
-          Value: true
-        uav14/gps_garmin_origin:
-          Value: true
-        uav14/gps_garmin_origin_att_only:
-          Value: true
-        uav14/imu_link:
-          Value: true
-        uav14/local_origin:
-          Value: true
-        uav14/lslidar_link:
-          Value: true
-        uav14/odom:
-          Value: true
-        uav14/passthrough_origin:
-          Value: true
-        uav14/rtk_antenna:
-          Value: true
-        uav14/stable_origin:
-          Value: true
-        uav14/utm_navsat:
-          Value: true
-        uav14/utm_origin:
-          Value: true
-        uav14/world_origin:
-          Value: true
-        uav15/amsl_origin:
-          Value: true
-        uav15/base_footprint_link:
-          Value: true
-        uav15/fcu:
-          Value: true
-        uav15/fcu_untilted:
-          Value: true
-        uav15/fixed_origin:
-          Value: true
-        uav15/garmin:
-          Value: true
-        uav15/garmin_agl_origin:
-          Value: true
-        uav15/gnss_link:
-          Value: true
-        uav15/gps_garmin_origin:
-          Value: true
-        uav15/gps_garmin_origin_att_only:
-          Value: true
-        uav15/imu_link:
-          Value: true
-        uav15/local_origin:
-          Value: true
-        uav15/lslidar_link:
-          Value: true
-        uav15/odom:
-          Value: true
-        uav15/passthrough_origin:
-          Value: true
-        uav15/rtk_antenna:
-          Value: true
-        uav15/stable_origin:
-          Value: true
-        uav15/utm_navsat:
-          Value: true
-        uav15/utm_origin:
-          Value: true
-        uav15/world_origin:
-          Value: true
+        uav7/amsl_origin:
+          Value: false
+        uav7/fcu:
+          Value: true
+        uav7/fcu_untilted:
+          Value: false
+        uav7/fixed_origin:
+          Value: false
+        uav7/garmin:
+          Value: false
+        uav7/garmin_agl_origin:
+          Value: false
+        uav7/gnss_link:
+          Value: false
+        uav7/imu_link:
+          Value: false
+        uav7/liosam_origin:
+          Value: false
+        uav7/liosam_origin_att_only:
+          Value: false
+        uav7/local_origin:
+          Value: false
+        uav7/lslidar_link:
+          Value: false
+        uav7/odom:
+          Value: false
+        uav7/rtk_antenna:
+          Value: false
+        uav7/stable_origin:
+          Value: false
+        uav7/utm_navsat:
+          Value: false
+        uav7/utm_origin:
+          Value: false
+        uav7/world_origin:
+          Value: false
+        uav8/amsl_origin:
+          Value: false
+        uav8/fcu:
+          Value: true
+        uav8/fcu_untilted:
+          Value: false
+        uav8/fixed_origin:
+          Value: false
+        uav8/garmin:
+          Value: false
+        uav8/garmin_agl_origin:
+          Value: false
+        uav8/gnss_link:
+          Value: false
+        uav8/imu_link:
+          Value: false
+        uav8/liosam_origin:
+          Value: false
+        uav8/liosam_origin_att_only:
+          Value: false
+        uav8/local_origin:
+          Value: false
+        uav8/lslidar_link:
+          Value: false
+        uav8/odom:
+          Value: false
+        uav8/rtk_antenna:
+          Value: false
+        uav8/stable_origin:
+          Value: false
+        uav8/utm_navsat:
+          Value: false
+        uav8/utm_origin:
+          Value: false
+        uav8/world_origin:
+          Value: false
         uav9/amsl_origin:
-          Value: true
-        uav9/base_footprint_link:
           Value: true
         uav9/fcu:
           Value: true
@@ -374,19 +195,17 @@ Visualization Manager:
           Value: true
         uav9/gnss_link:
           Value: true
-        uav9/gps_garmin_origin:
-          Value: true
-        uav9/gps_garmin_origin_att_only:
-          Value: true
         uav9/imu_link:
+          Value: true
+        uav9/liosam_origin:
+          Value: true
+        uav9/liosam_origin_att_only:
           Value: true
         uav9/local_origin:
           Value: true
         uav9/lslidar_link:
           Value: true
         uav9/odom:
-          Value: true
-        uav9/passthrough_origin:
           Value: true
         uav9/rtk_antenna:
           Value: true
@@ -409,219 +228,71 @@ Visualization Manager:
           base_link_frd:
             {}
         common_origin:
-          uav10/fcu:
-            uav10/base_footprint_link:
-              {}
-            uav10/fcu_untilted:
-              uav10/amsl_origin:
+          uav7/fcu:
+            uav7/fcu_untilted:
+              uav7/amsl_origin:
                 {}
-              uav10/garmin_agl_origin:
+              uav7/garmin_agl_origin:
                 {}
-            uav10/fixed_origin:
-              uav10/local_origin:
+            uav7/fixed_origin:
+              uav7/local_origin:
                 {}
-            uav10/garmin:
+            uav7/garmin:
               {}
-            uav10/gnss_link:
+            uav7/gnss_link:
               {}
-            uav10/gps_garmin_origin:
+            uav7/imu_link:
               {}
-            uav10/gps_garmin_origin_att_only:
+            uav7/liosam_origin:
               {}
-            uav10/imu_link:
+            uav7/liosam_origin_att_only:
               {}
-            uav10/lslidar_link:
+            uav7/lslidar_link:
               {}
-            uav10/passthrough_origin:
-              {}
-            uav10/rtk_antenna:
-              {}
-            uav10/stable_origin:
-              uav10/odom:
-                uav10/utm_navsat:
-                  {}
-            uav10/utm_origin:
-              {}
-            uav10/world_origin:
-              {}
-          uav11/fcu:
-            uav11/base_footprint_link:
-              {}
-            uav11/fcu_untilted:
-              uav11/amsl_origin:
+            uav7/odom:
+              uav7/utm_navsat:
                 {}
-              uav11/garmin_agl_origin:
+            uav7/rtk_antenna:
+              {}
+            uav7/stable_origin:
+              {}
+            uav7/utm_origin:
+              {}
+            uav7/world_origin:
+              {}
+          uav8/fcu:
+            uav8/fcu_untilted:
+              uav8/amsl_origin:
                 {}
-            uav11/fixed_origin:
-              uav11/local_origin:
+              uav8/garmin_agl_origin:
                 {}
-            uav11/garmin:
-              {}
-            uav11/gnss_link:
-              {}
-            uav11/gps_garmin_origin:
-              {}
-            uav11/gps_garmin_origin_att_only:
-              {}
-            uav11/imu_link:
-              {}
-            uav11/lslidar_link:
-              {}
-            uav11/passthrough_origin:
-              {}
-            uav11/rtk_antenna:
-              {}
-            uav11/stable_origin:
-              uav11/odom:
-                uav11/utm_navsat:
-                  {}
-            uav11/utm_origin:
-              {}
-            uav11/world_origin:
-              {}
-          uav12/fcu:
-            uav12/base_footprint_link:
-              {}
-            uav12/fcu_untilted:
-              uav12/amsl_origin:
+            uav8/fixed_origin:
+              uav8/local_origin:
                 {}
-              uav12/garmin_agl_origin:
+            uav8/garmin:
+              {}
+            uav8/gnss_link:
+              {}
+            uav8/imu_link:
+              {}
+            uav8/liosam_origin:
+              {}
+            uav8/liosam_origin_att_only:
+              {}
+            uav8/lslidar_link:
+              {}
+            uav8/odom:
+              uav8/utm_navsat:
                 {}
-            uav12/fixed_origin:
-              uav12/local_origin:
-                {}
-            uav12/garmin:
+            uav8/rtk_antenna:
               {}
-            uav12/gnss_link:
+            uav8/stable_origin:
               {}
-            uav12/gps_garmin_origin:
+            uav8/utm_origin:
               {}
-            uav12/gps_garmin_origin_att_only:
-              {}
-            uav12/imu_link:
-              {}
-            uav12/lslidar_link:
-              {}
-            uav12/passthrough_origin:
-              {}
-            uav12/rtk_antenna:
-              {}
-            uav12/stable_origin:
-              uav12/odom:
-                uav12/utm_navsat:
-                  {}
-            uav12/utm_origin:
-              {}
-            uav12/world_origin:
-              {}
-          uav13/fcu:
-            uav13/base_footprint_link:
-              {}
-            uav13/fcu_untilted:
-              uav13/amsl_origin:
-                {}
-              uav13/garmin_agl_origin:
-                {}
-            uav13/fixed_origin:
-              uav13/local_origin:
-                {}
-            uav13/garmin:
-              {}
-            uav13/gnss_link:
-              {}
-            uav13/gps_garmin_origin:
-              {}
-            uav13/gps_garmin_origin_att_only:
-              {}
-            uav13/imu_link:
-              {}
-            uav13/lslidar_link:
-              {}
-            uav13/passthrough_origin:
-              {}
-            uav13/rtk_antenna:
-              {}
-            uav13/stable_origin:
-              uav13/odom:
-                uav13/utm_navsat:
-                  {}
-            uav13/utm_origin:
-              {}
-            uav13/world_origin:
-              {}
-          uav14/fcu:
-            uav14/base_footprint_link:
-              {}
-            uav14/fcu_untilted:
-              uav14/amsl_origin:
-                {}
-              uav14/garmin_agl_origin:
-                {}
-            uav14/fixed_origin:
-              uav14/local_origin:
-                {}
-            uav14/garmin:
-              {}
-            uav14/gnss_link:
-              {}
-            uav14/gps_garmin_origin:
-              {}
-            uav14/gps_garmin_origin_att_only:
-              {}
-            uav14/imu_link:
-              {}
-            uav14/lslidar_link:
-              {}
-            uav14/passthrough_origin:
-              {}
-            uav14/rtk_antenna:
-              {}
-            uav14/stable_origin:
-              uav14/odom:
-                uav14/utm_navsat:
-                  {}
-            uav14/utm_origin:
-              {}
-            uav14/world_origin:
-              {}
-          uav15/fcu:
-            uav15/base_footprint_link:
-              {}
-            uav15/fcu_untilted:
-              uav15/amsl_origin:
-                {}
-              uav15/garmin_agl_origin:
-                {}
-            uav15/fixed_origin:
-              uav15/local_origin:
-                {}
-            uav15/garmin:
-              {}
-            uav15/gnss_link:
-              {}
-            uav15/gps_garmin_origin:
-              {}
-            uav15/gps_garmin_origin_att_only:
-              {}
-            uav15/imu_link:
-              {}
-            uav15/lslidar_link:
-              {}
-            uav15/passthrough_origin:
-              {}
-            uav15/rtk_antenna:
-              {}
-            uav15/stable_origin:
-              uav15/odom:
-                uav15/utm_navsat:
-                  {}
-            uav15/utm_origin:
-              {}
-            uav15/world_origin:
+            uav8/world_origin:
               {}
           uav9/fcu:
-            uav9/base_footprint_link:
-              {}
             uav9/fcu_untilted:
               uav9/amsl_origin:
                 {}
@@ -634,22 +305,21 @@ Visualization Manager:
               {}
             uav9/gnss_link:
               {}
-            uav9/gps_garmin_origin:
-              {}
-            uav9/gps_garmin_origin_att_only:
-              {}
             uav9/imu_link:
+              {}
+            uav9/liosam_origin:
+              {}
+            uav9/liosam_origin_att_only:
               {}
             uav9/lslidar_link:
               {}
-            uav9/passthrough_origin:
-              {}
+            uav9/odom:
+              uav9/utm_navsat:
+                {}
             uav9/rtk_antenna:
               {}
             uav9/stable_origin:
-              uav9/odom:
-                uav9/utm_navsat:
-                  {}
+              {}
             uav9/utm_origin:
               {}
             uav9/world_origin:
@@ -775,7 +445,7 @@ Visualization Manager:
           Axes Radius: 0.009999999776482582
           Class: rviz/PoseArray
           Color: 255; 25; 0
-          Enabled: true
+          Enabled: false
           Head Length: 0.07000000029802322
           Head Radius: 0.029999999329447746
           Name: PoseArray
@@ -785,7 +455,7 @@ Visualization Manager:
           Shape: Arrow (Flat)
           Topic: /uav6/control_manager/trajectory_original/poses
           Unreliable: false
-          Value: true
+          Value: false
       Enabled: true
       Name: uav6
     - Class: rviz/Group
@@ -1316,14 +986,32 @@ Visualization Manager:
           Name: OctoPlanner
       Enabled: true
       Name: uav12
-    - Class: rviz/InteractiveMarkers
-      Enable Transparency: true
+    - Alpha: 1
+      Class: rviz/Axes
       Enabled: true
-      Name: Control Display
-      Show Axes: false
-      Show Descriptions: true
-      Show Visual Aids: false
-      Update Topic: control/update
+      Length: 5
+      Name: world_origin
+      Radius: 1
+      Reference Frame: <Fixed Frame>
+      Show Trail: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/Axes
+      Enabled: true
+      Length: 5
+      Name: Axes
+      Radius: 1
+      Reference Frame: uav7/fcu
+      Show Trail: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/Axes
+      Enabled: true
+      Length: 5
+      Name: Axes
+      Radius: 1
+      Reference Frame: uav8/fcu
+      Show Trail: false
       Value: true
     - Alpha: 1
       Class: rviz/Axes
@@ -1340,43 +1028,8 @@ Visualization Manager:
       Length: 5
       Name: Axes
       Radius: 1
-      Reference Frame: <Fixed Frame>
-      Show Trail: false
-      Value: true
-    - Alpha: 1
-      Class: rviz/Axes
-      Enabled: true
-      Length: 5
-      Name: Axes
-      Radius: 1
       Reference Frame: uav10/fcu
       Show Trail: false
-      Value: true
-    - Alpha: 1
-      Class: rviz/Axes
-      Enabled: true
-      Length: 5
-      Name: Axes
-      Radius: 1
-      Reference Frame: uav15/fcu
-      Show Trail: false
-      Value: true
-    - Alpha: 1
-      Arrow Length: 0.30000001192092896
-      Axes Length: 0.30000001192092896
-      Axes Radius: 0.009999999776482582
-      Class: rviz/PoseArray
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.07000000029802322
-      Head Radius: 0.029999999329447746
-      Name: PoseArray
-      Queue Size: 10
-      Shaft Length: 0.23000000417232513
-      Shaft Radius: 0.009999999776482582
-      Shape: Arrow (Flat)
-      Topic: /uav9/control_manager/trajectory_original/poses
-      Unreliable: false
       Value: true
     - Alpha: 1
       Class: rviz/Axes
@@ -1413,6 +1066,32 @@ Visualization Manager:
       Radius: 1
       Reference Frame: uav14/fcu
       Show Trail: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/Axes
+      Enabled: true
+      Length: 5
+      Name: Axes
+      Radius: 1
+      Reference Frame: uav15/fcu
+      Show Trail: false
+      Value: true
+    - Alpha: 1
+      Arrow Length: 0.30000001192092896
+      Axes Length: 0.30000001192092896
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: PoseArray
+      Queue Size: 10
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
+      Shape: Arrow (Flat)
+      Topic: /uav9/control_manager/trajectory_original/poses
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -1454,7 +1133,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.010000178590416908
+      Angle: 1.5850000381469727
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -1464,10 +1143,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 2.8682799339294434
+      Scale: 27.95334243774414
       Target Frame: <Fixed Frame>
-      X: -126.0415267944336
-      Y: 110.18358612060547
+      X: 14.112163543701172
+      Y: 17.78594398498535
     Saved: ~
 Window Geometry:
   Displays:
@@ -1485,5 +1164,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1848
-  X: 72
-  Y: 27
+  X: 1992
+  Y: 450
