@@ -11,6 +11,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import rospy
+import roslib.message
 from std_msgs.msg import String, UInt8MultiArray
 from std_srvs.srv import Trigger
 
@@ -38,6 +39,7 @@ TOPIC_SUFFIX = {
 }
 DIAGNOSTICS_TOPIC_SUFFIX = "/uav_manager/diagnostics"
 CONTROL_MANAGER_DIAGNOSTICS_TOPIC_SUFFIX = "/control_manager/diagnostics"
+OCTOMAP_PLANNER_DIAGNOSTICS_TOPIC_SUFFIX = "/octomap_planner/diagnostics"
 STATUS_TOPIC_SUFFIX = "/mrs_uav_status/uav_status"
 FMS_STATUS_TOPIC_SUFFIX = "/fms/drone_status"
 # Prefer strongly-typed status message when available.
@@ -136,6 +138,7 @@ class DroneState:
         self.drone_status_offboard = None
         self.drone_status_flying = None
         self.drone_status_goal = None
+        self.drone_status_octoplanner = None
 
     def heartbeat(self):
         self.last_msg_time = time.time()
@@ -176,6 +179,7 @@ class FleetData:
                     "drone_status_offboard": state.drone_status_offboard,
                     "drone_status_flying": state.drone_status_flying,
                     "drone_status_goal": state.drone_status_goal,
+                    "drone_status_octoplanner": state.drone_status_octoplanner,
                 }
                 for drone_id, state in self.states.items()
             }
@@ -737,9 +741,9 @@ class DroneDashboard(QMainWindow):
 
         swarm_title = QLabel("Swarm Monitor")
         swarm_title.setObjectName("sectionTitle")
-        self.swarm_table = QTableWidget(len(self.swarm_monitor_drones), 9)
+        self.swarm_table = QTableWidget(len(self.swarm_monitor_drones), 10)
         self.swarm_table.setHorizontalHeaderLabels(
-            ["Drone", "GNSS", "LiDAR", "Swarm", "PreFlight", "Armed", "Offboard", "Flying", "Goal"]
+            ["Drone", "GNSS", "LiDAR", "Swarm", "PreFlight", "Armed", "Offboard", "Flying", "Goal", "OctoPlanner"]
         )
         self.swarm_table.verticalHeader().setVisible(False)
         self.swarm_table.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -751,7 +755,7 @@ class DroneDashboard(QMainWindow):
             name_item = QTableWidgetItem(drone_id)
             name_item.setTextAlignment(Qt.AlignCenter)
             self.swarm_table.setItem(row, 0, name_item)
-            for col in range(1, 9):
+            for col in range(1, 10):
                 self._set_led_item(self.swarm_table, row, col, None)
 
         status_layout.addWidget(status_title)
@@ -849,6 +853,7 @@ class DroneDashboard(QMainWindow):
             self._set_led_item(self.swarm_table, row, 6, state.get("drone_status_offboard"))
             self._set_led_item(self.swarm_table, row, 7, state.get("drone_status_flying"))
             self._set_led_item(self.swarm_table, row, 8, state.get("drone_status_goal"))
+            self._set_led_item(self.swarm_table, row, 9, state.get("drone_status_octoplanner"))
 
     def _queue_action_result(self, channel, text):
         with self.action_results_lock:
@@ -1175,6 +1180,7 @@ class RosInterface:
         self.drone_status_armed = {name: None for name in self.active_drones}
         self.drone_status_offboard = {name: None for name in self.active_drones}
         self.drone_status_goal = {name: None for name in self.active_drones}
+        self.drone_status_octoplanner = {name: None for name in self.active_drones}
 
         for drone_id in DRONE_IDS:
             ns_prefix = f"/{drone_id}"
@@ -1207,6 +1213,14 @@ class RosInterface:
                     ns_prefix + CONTROL_MANAGER_DIAGNOSTICS_TOPIC_SUFFIX,
                     ControlManagerDiagnosticsMsgType,
                     self.control_manager_diagnostics_cb,
+                    callback_args=drone_id,
+                )
+            )
+            self.subscribers.append(
+                rospy.Subscriber(
+                    ns_prefix + OCTOMAP_PLANNER_DIAGNOSTICS_TOPIC_SUFFIX,
+                    rospy.AnyMsg,
+                    self.octomap_planner_diagnostics_cb,
                     callback_args=drone_id,
                 )
             )
@@ -1272,6 +1286,31 @@ class RosInterface:
         with self.data.lock:
             state = self.data.states[drone_id]
             state.drone_status_goal = have_goal
+
+    def octomap_planner_diagnostics_cb(self, msg, drone_id):
+        decoded_msg = msg
+        if isinstance(msg, rospy.AnyMsg):
+            topic_type = None
+            if hasattr(msg, "_connection_header") and isinstance(msg._connection_header, dict):
+                topic_type = msg._connection_header.get("type")
+            if not topic_type:
+                return
+            msg_class = roslib.message.get_message_class(topic_type)
+            if msg_class is None:
+                return
+            decoded_msg = msg_class()
+            decoded_msg.deserialize(msg._buff)
+
+        idle = getattr(decoded_msg, "idle", None)
+        if not isinstance(idle, bool):
+            return
+
+        if drone_id in self.drone_status_octoplanner:
+            self.drone_status_octoplanner[drone_id] = idle
+
+        with self.data.lock:
+            state = self.data.states[drone_id]
+            state.drone_status_octoplanner = idle
 
     def make_callback(self, name):
         def callback(msg):
