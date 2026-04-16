@@ -177,6 +177,7 @@ class PingMonitor:
         self.interval_s = interval_s
         self.ping_exe = shutil.which("ping")
         self.executor = ThreadPoolExecutor(max_workers=len(DRONE_IDS))
+        self.scan_lock = threading.Lock()
         self.thread = threading.Thread(target=self._run, daemon=True)
         self.thread.start()
 
@@ -243,8 +244,8 @@ class PingMonitor:
             return "OK", float(match.group(1))
         return "OK", None
 
-    def _run(self):
-        while not rospy.is_shutdown():
+    def _scan_once(self):
+        with self.scan_lock:
             futures = {
                 self.executor.submit(self._ping_once, self.ip_map.get(drone_id, "")): drone_id
                 for drone_id in DRONE_IDS
@@ -261,6 +262,13 @@ class PingMonitor:
                     state.ping_status = status
                     state.ping_latency_ms = latency_ms
                     state.ping_last_check = now
+
+    def refresh_now(self):
+        self._scan_once()
+
+    def _run(self):
+        while not rospy.is_shutdown():
+            self._scan_once()
             time.sleep(self.interval_s)
 
 
@@ -307,6 +315,24 @@ class TakeoffController:
                 rospy.logwarn(f"[DASHBOARD]: Service discovery error for {service_name}: {exc}")
                 time.sleep(0.5)
 
+    def _refresh_trigger_service(self, drone_id, suffix, service_map):
+        service_name = f"/{drone_id}{suffix}"
+        try:
+            rospy.wait_for_service(service_name, timeout=0.1)
+            proxy = rospy.ServiceProxy(service_name, Trigger, persistent=False)
+            with self.lock:
+                service_map[drone_id] = proxy
+            return True
+        except rospy.ROSException:
+            with self.lock:
+                service_map.pop(drone_id, None)
+            return False
+        except Exception as exc:
+            rospy.logwarn(f"[DASHBOARD]: Service refresh error for {service_name}: {exc}")
+            with self.lock:
+                service_map.pop(drone_id, None)
+            return False
+
     def set_swarm_leader(self, leader_drone):
         with self.lock:
             self.swarm_leader = leader_drone
@@ -342,6 +368,36 @@ class TakeoffController:
             except Exception as exc:
                 rospy.logwarn(f"[DASHBOARD]: Service discovery error for {service_name}: {exc}")
                 time.sleep(0.5)
+
+    def refresh_ready_services(self):
+        for drone_id in self.drone_ids:
+            self._refresh_trigger_service(drone_id, "/uav_manager/takeoff", self.takeoff_services)
+            self._refresh_trigger_service(drone_id, "/sweeping_generator/emergency", self.emergency_services)
+
+        with self.lock:
+            leader = self.swarm_leader
+
+        if not leader or Vec1SrvType is None:
+            with self.lock:
+                self.swarm_start_service = None
+            return
+
+        service_name = f"/{leader}/sweeping_generator/start"
+        try:
+            rospy.wait_for_service(service_name, timeout=0.1)
+            proxy = rospy.ServiceProxy(service_name, Vec1SrvType, persistent=False)
+            with self.lock:
+                if self.swarm_leader == leader:
+                    self.swarm_start_service = proxy
+        except rospy.ROSException:
+            with self.lock:
+                if self.swarm_leader == leader:
+                    self.swarm_start_service = None
+        except Exception as exc:
+            rospy.logwarn(f"[DASHBOARD]: Service refresh error for {service_name}: {exc}")
+            with self.lock:
+                if self.swarm_leader == leader:
+                    self.swarm_start_service = None
 
     def ready_count(self):
         with self.lock:
@@ -429,10 +485,11 @@ class TakeoffController:
 
 
 class DroneDashboard(QMainWindow):
-    def __init__(self, data, takeoff_controller):
+    def __init__(self, data, takeoff_controller, ping_monitor):
         super().__init__()
         self.data = data
         self.takeoff_controller = takeoff_controller
+        self.ping_monitor = ping_monitor
         self.selected_drone = DRONE_IDS[0]
         self.ordered_active_drones = parse_ordered_drones_from_env()
         self.active_drones = set(self.ordered_active_drones)
@@ -444,6 +501,7 @@ class DroneDashboard(QMainWindow):
         self.action_results = []
         self.action_results_lock = threading.Lock()
         self.current_action_channel = None
+        self.refresh_busy = False
         self.setWindowTitle("Fleet Telemetry Dashboard")
         self.setMinimumSize(1200, 720)
 
@@ -554,6 +612,12 @@ class DroneDashboard(QMainWindow):
         control_inner_layout.setContentsMargins(8, 8, 8, 8)
         control_inner_layout.setSpacing(8)
 
+        self.refresh_button = QPushButton("REFRESH")
+        self.refresh_button.clicked.connect(self.manual_refresh)
+        self.refresh_button.setStyleSheet(
+            "font-size: 13px; font-weight: 700; padding: 8px; border: 1px solid #5b6777; background-color: #6c7a89; color: white; border-radius: 6px;"
+        )
+
         self.takeoff_all_button = QPushButton("TAKE OFF ALL ACTIVE")
         self.takeoff_all_button.clicked.connect(self.takeoff_all_active)
         self.takeoff_all_button.setStyleSheet(
@@ -619,6 +683,7 @@ class DroneDashboard(QMainWindow):
         swarm_layout.addWidget(self.swarm_start_button, 0)
         swarm_layout.addWidget(self.swarm_status_label, 0)
 
+        control_inner_layout.addWidget(self.refresh_button)
         control_inner_layout.addLayout(takeoff_main_layout)
         control_inner_layout.addLayout(takeoff_grid)
         control_inner_layout.addLayout(emergency_layout)
@@ -701,6 +766,25 @@ class DroneDashboard(QMainWindow):
         self._update_button_styles()
         self.refresh_ui()
 
+    def manual_refresh(self):
+        if self.refresh_busy:
+            return
+        self.refresh_busy = True
+        self.refresh_button.setEnabled(False)
+        self.refresh_button.setText("REFRESHING...")
+        worker = threading.Thread(target=self._run_manual_refresh, daemon=True)
+        worker.start()
+
+    def _run_manual_refresh(self):
+        try:
+            self.takeoff_controller.refresh_ready_services()
+            self.ping_monitor.refresh_now()
+            result_text = "REFRESH"
+        except Exception as exc:
+            rospy.logwarn(f"[DASHBOARD]: Manual refresh failed: {exc}")
+            result_text = "REFRESH FAILED"
+        self._queue_action_result("refresh", result_text)
+
     def _drone_link_ok(self, state, now):
         status_msg_time = state.get("status_msg_time", 0.0)
         status_age = now - status_msg_time if status_msg_time > 0 else 999.0
@@ -769,11 +853,17 @@ class DroneDashboard(QMainWindow):
                 self.emergency_status_label.setText(text)
             elif channel == "swarm":
                 self.swarm_status_label.setText(text)
+            elif channel == "refresh":
+                self.refresh_button.setText(text)
+                self.refresh_button.setEnabled(True)
+                self.refresh_busy = False
             else:
                 self.takeoff_status_label.setText(text)
         if pending:
-            self.action_busy = False
-            self.current_action_channel = None
+            non_refresh_pending = any(channel != "refresh" for channel, _ in pending)
+            if non_refresh_pending:
+                self.action_busy = False
+                self.current_action_channel = None
 
     def _update_takeoff_controls(self):
         ready = self.takeoff_controller.ready_count()
@@ -1181,7 +1271,7 @@ def main():
     ping_monitor = PingMonitor(data, DRONE_PING_IP)
 
     app = QApplication(sys.argv)
-    window = DroneDashboard(data, takeoff_controller)
+    window = DroneDashboard(data, takeoff_controller, ping_monitor)
     window.show()
 
     exit_code = app.exec_()

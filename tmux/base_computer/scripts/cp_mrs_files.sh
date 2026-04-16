@@ -19,7 +19,7 @@ build_default_hosts() {
     drone_hosts=()
 
     # Use seq instead of brace expansion to avoid dependence on shell option "braceexpand".
-    for i in $(seq 6 15); do
+    for i in $(seq 7 15); do
         if [ "$format" = "vpn" ]; then
             drone_hosts+=("uav${i}_vpn")
         else
