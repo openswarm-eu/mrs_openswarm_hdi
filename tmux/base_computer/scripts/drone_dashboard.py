@@ -37,6 +37,7 @@ TOPIC_SUFFIX = {
     "flight_mode": "/drone/flight_mode",
 }
 DIAGNOSTICS_TOPIC_SUFFIX = "/uav_manager/diagnostics"
+CONTROL_MANAGER_DIAGNOSTICS_TOPIC_SUFFIX = "/control_manager/diagnostics"
 STATUS_TOPIC_SUFFIX = "/mrs_uav_status/uav_status"
 FMS_STATUS_TOPIC_SUFFIX = "/fms/drone_status"
 # Prefer strongly-typed status message when available.
@@ -48,6 +49,10 @@ try:
     from mrs_msgs.msg import UavManagerDiagnostics as DiagnosticsMsgType
 except Exception:
     DiagnosticsMsgType = rospy.AnyMsg
+try:
+    from mrs_msgs.msg import ControlManagerDiagnostics as ControlManagerDiagnosticsMsgType
+except Exception:
+    ControlManagerDiagnosticsMsgType = rospy.AnyMsg
 try:
     from mrs_msgs.srv import Vec1 as Vec1SrvType
     from mrs_msgs.srv import Vec1Request as Vec1RequestType
@@ -129,6 +134,7 @@ class DroneState:
         self.drone_status_armed = None
         self.drone_status_offboard = None
         self.drone_status_flying = None
+        self.drone_status_goal = None
 
     def heartbeat(self):
         self.last_msg_time = time.time()
@@ -167,6 +173,7 @@ class FleetData:
                     "drone_status_armed": state.drone_status_armed,
                     "drone_status_offboard": state.drone_status_offboard,
                     "drone_status_flying": state.drone_status_flying,
+                    "drone_status_goal": state.drone_status_goal,
                 }
                 for drone_id, state in self.states.items()
             }
@@ -728,9 +735,9 @@ class DroneDashboard(QMainWindow):
 
         swarm_title = QLabel("Swarm Monitor")
         swarm_title.setObjectName("sectionTitle")
-        self.swarm_table = QTableWidget(len(self.swarm_monitor_drones), 8)
+        self.swarm_table = QTableWidget(len(self.swarm_monitor_drones), 9)
         self.swarm_table.setHorizontalHeaderLabels(
-            ["Drone", "GNSS", "LiDAR", "Swarm", "PreFlight", "Armed", "Offboard", "Flying"]
+            ["Drone", "GNSS", "LiDAR", "Swarm", "PreFlight", "Armed", "Offboard", "Flying", "Goal"]
         )
         self.swarm_table.verticalHeader().setVisible(False)
         self.swarm_table.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -742,7 +749,7 @@ class DroneDashboard(QMainWindow):
             name_item = QTableWidgetItem(drone_id)
             name_item.setTextAlignment(Qt.AlignCenter)
             self.swarm_table.setItem(row, 0, name_item)
-            for col in range(1, 8):
+            for col in range(1, 9):
                 self._set_led_item(self.swarm_table, row, col, None)
 
         status_layout.addWidget(status_title)
@@ -839,6 +846,7 @@ class DroneDashboard(QMainWindow):
             self._set_led_item(self.swarm_table, row, 5, state.get("drone_status_armed"))
             self._set_led_item(self.swarm_table, row, 6, state.get("drone_status_offboard"))
             self._set_led_item(self.swarm_table, row, 7, state.get("drone_status_flying"))
+            self._set_led_item(self.swarm_table, row, 8, state.get("drone_status_goal"))
 
     def _queue_action_result(self, channel, text):
         with self.action_results_lock:
@@ -1161,6 +1169,7 @@ class RosInterface:
         self.drone_status_pre_flight = {name: None for name in self.active_drones}
         self.drone_status_armed = {name: None for name in self.active_drones}
         self.drone_status_offboard = {name: None for name in self.active_drones}
+        self.drone_status_goal = {name: None for name in self.active_drones}
 
         for drone_id in DRONE_IDS:
             ns_prefix = f"/{drone_id}"
@@ -1185,6 +1194,14 @@ class RosInterface:
                     ns_prefix + STATUS_TOPIC_SUFFIX,
                     StatusMsgType,
                     self.status_cb,
+                    callback_args=drone_id,
+                )
+            )
+            self.subscribers.append(
+                rospy.Subscriber(
+                    ns_prefix + CONTROL_MANAGER_DIAGNOSTICS_TOPIC_SUFFIX,
+                    ControlManagerDiagnosticsMsgType,
+                    self.control_manager_diagnostics_cb,
                     callback_args=drone_id,
                 )
             )
@@ -1234,6 +1251,19 @@ class RosInterface:
             flying_normally = getattr(msg, "flying_normally", None)
             if isinstance(flying_normally, bool):
                 state.drone_status_flying = flying_normally
+
+    def control_manager_diagnostics_cb(self, msg, drone_id):
+        tracker_status = getattr(msg, "tracker_status", None)
+        have_goal = getattr(tracker_status, "have_goal", None)
+        if not isinstance(have_goal, bool):
+            return
+
+        if drone_id in self.drone_status_goal:
+            self.drone_status_goal[drone_id] = have_goal
+
+        with self.data.lock:
+            state = self.data.states[drone_id]
+            state.drone_status_goal = have_goal
 
     def make_callback(self, name):
         def callback(msg):
