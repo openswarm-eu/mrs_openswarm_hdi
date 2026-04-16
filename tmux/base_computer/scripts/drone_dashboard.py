@@ -124,6 +124,7 @@ class DroneState:
         self.status_msg_time = 0.0
         self.last_msg_time = 0.0
         self.hw_api_gnss_fix_type = None
+        self.vertical_estimator = None
         self.ping_status = "N/A"
         self.ping_latency_ms = None
         self.ping_last_check = 0.0
@@ -163,6 +164,7 @@ class FleetData:
                     "status_msg_time": state.status_msg_time,
                     "last_msg_time": state.last_msg_time,
                     "hw_api_gnss_fix_type": state.hw_api_gnss_fix_type,
+                    "vertical_estimator": state.vertical_estimator,
                     "ping_status": state.ping_status,
                     "ping_latency_ms": state.ping_latency_ms,
                     "ping_last_check": state.ping_last_check,
@@ -721,9 +723,9 @@ class DroneDashboard(QMainWindow):
         grid.addWidget(self.link_label, 3, 0, 1, 2)
         telemetry_layout.addLayout(grid)
 
-        self.table = QTableWidget(len(DRONE_IDS), 8)
+        self.table = QTableWidget(len(DRONE_IDS), 9)
         self.table.setHorizontalHeaderLabels(
-            ["Drone", "Ping", "Status", "Battery (V)", "Swarm Info", "Lidar 3D", "GPS", "GNSS Fix"]
+            ["Drone", "Ping", "Status", "Alt Est", "Battery (V)", "Swarm Info", "Lidar 3D", "GPS", "GNSS Fix"]
         )
         self.table.verticalHeader().setVisible(False)
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -1123,6 +1125,7 @@ class DroneDashboard(QMainWindow):
             ping_status = state["ping_status"]
             if state["ping_latency_ms"] is not None:
                 ping_status = f"{ping_status} {state['ping_latency_ms']:.1f} ms"
+            alt_estimator_text = state["vertical_estimator"] or "N/A"
             battery_text = "N/A"
             if state["battery_voltage_v"] is not None:
                 battery_text = f"{state['battery_voltage_v']:.2f}"
@@ -1140,22 +1143,24 @@ class DroneDashboard(QMainWindow):
 
             ping_item = QTableWidgetItem(ping_status)
             status_item = QTableWidgetItem(status_text)
+            alt_estimator_item = QTableWidgetItem(alt_estimator_text)
             battery_item = QTableWidgetItem(battery_text)
             swarm_item = QTableWidgetItem(swarm_info_text)
             lidar_item = QTableWidgetItem(lidar_3d_text)
             gps_item = QTableWidgetItem(f"{state['latitude']:.6f}, {state['longitude']:.6f}")
             gnss_item = QTableWidgetItem(gnss_fix_text)
 
-            for item in (ping_item, status_item, battery_item, swarm_item, lidar_item, gps_item, gnss_item):
+            for item in (ping_item, status_item, alt_estimator_item, battery_item, swarm_item, lidar_item, gps_item, gnss_item):
                 item.setForeground(row_color)
 
             self.table.setItem(row, 1, ping_item)
             self.table.setItem(row, 2, status_item)
-            self.table.setItem(row, 3, battery_item)
-            self.table.setItem(row, 4, swarm_item)
-            self.table.setItem(row, 5, lidar_item)
-            self.table.setItem(row, 6, gps_item)
-            self.table.setItem(row, 7, gnss_item)
+            self.table.setItem(row, 3, alt_estimator_item)
+            self.table.setItem(row, 4, battery_item)
+            self.table.setItem(row, 5, swarm_item)
+            self.table.setItem(row, 6, lidar_item)
+            self.table.setItem(row, 7, gps_item)
+            self.table.setItem(row, 8, gnss_item)
 
 
 class RosInterface:
@@ -1248,6 +1253,9 @@ class RosInterface:
                 if isinstance(value, int):
                     state.hw_api_gnss_fix_type = value
                     break
+            vertical_estimator = getattr(msg, "vertical_estimator", None)
+            if isinstance(vertical_estimator, str):
+                state.vertical_estimator = vertical_estimator
             flying_normally = getattr(msg, "flying_normally", None)
             if isinstance(flying_normally, bool):
                 state.drone_status_flying = flying_normally
