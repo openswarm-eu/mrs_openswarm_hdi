@@ -128,6 +128,7 @@ class DroneState:
         self.drone_status_pre_flight = None
         self.drone_status_armed = None
         self.drone_status_offboard = None
+        self.drone_status_flying = None
 
     def heartbeat(self):
         self.last_msg_time = time.time()
@@ -165,6 +166,7 @@ class FleetData:
                     "drone_status_pre_flight": state.drone_status_pre_flight,
                     "drone_status_armed": state.drone_status_armed,
                     "drone_status_offboard": state.drone_status_offboard,
+                    "drone_status_flying": state.drone_status_flying,
                 }
                 for drone_id, state in self.states.items()
             }
@@ -726,9 +728,9 @@ class DroneDashboard(QMainWindow):
 
         swarm_title = QLabel("Swarm Monitor")
         swarm_title.setObjectName("sectionTitle")
-        self.swarm_table = QTableWidget(len(self.swarm_monitor_drones), 7)
+        self.swarm_table = QTableWidget(len(self.swarm_monitor_drones), 8)
         self.swarm_table.setHorizontalHeaderLabels(
-            ["Drone", "GNSS", "LiDAR", "Swarm", "PreFlight", "Armed", "Offboard"]
+            ["Drone", "GNSS", "LiDAR", "Swarm", "PreFlight", "Armed", "Offboard", "Flying"]
         )
         self.swarm_table.verticalHeader().setVisible(False)
         self.swarm_table.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -740,7 +742,7 @@ class DroneDashboard(QMainWindow):
             name_item = QTableWidgetItem(drone_id)
             name_item.setTextAlignment(Qt.AlignCenter)
             self.swarm_table.setItem(row, 0, name_item)
-            for col in range(1, 7):
+            for col in range(1, 8):
                 self._set_led_item(self.swarm_table, row, col, None)
 
         status_layout.addWidget(status_title)
@@ -836,6 +838,7 @@ class DroneDashboard(QMainWindow):
             self._set_led_item(self.swarm_table, row, 4, state.get("drone_status_pre_flight"))
             self._set_led_item(self.swarm_table, row, 5, state.get("drone_status_armed"))
             self._set_led_item(self.swarm_table, row, 6, state.get("drone_status_offboard"))
+            self._set_led_item(self.swarm_table, row, 7, state.get("drone_status_flying"))
 
     def _queue_action_result(self, channel, text):
         with self.action_results_lock:
@@ -1228,6 +1231,9 @@ class RosInterface:
                 if isinstance(value, int):
                     state.hw_api_gnss_fix_type = value
                     break
+            flying_normally = getattr(msg, "flying_normally", None)
+            if isinstance(flying_normally, bool):
+                state.drone_status_flying = flying_normally
 
     def make_callback(self, name):
         def callback(msg):
