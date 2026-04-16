@@ -713,12 +713,12 @@ class DroneDashboard(QMainWindow):
         telemetry_panel = QFrame()
         telemetry_panel.setObjectName("telemetryPanel")
         telemetry_layout = QVBoxLayout(telemetry_panel)
-        telemetry_layout.setContentsMargins(8, 8, 8, 8)
-        telemetry_layout.setSpacing(6)
+        telemetry_layout.setContentsMargins(6, 6, 6, 6)
+        telemetry_layout.setSpacing(4)
 
         for widget in [self.battery_label, self.flight_time_label, self.flight_mode_label, self.gps_label, self.link_label]:
             widget.setFrameStyle(QFrame.Panel | QFrame.Sunken)
-            widget.setStyleSheet("font-size: 15px; padding: 6px;")
+            widget.setStyleSheet("font-size: 13px; padding: 3px;")
 
         grid.addWidget(self.battery_label, 0, 0, 1, 2)
         grid.addWidget(self.flight_time_label, 1, 0)
